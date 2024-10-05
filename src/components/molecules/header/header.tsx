@@ -12,7 +12,7 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen)
   }
   return (
-    <header className="relative h-full max-h-[500px] w-full">
+    <header className="relative h-full max-h-[700px] w-full">
       {/* header image */}
       <Image
         src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/header.avif`}
