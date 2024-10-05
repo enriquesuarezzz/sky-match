@@ -1,3 +1,4 @@
+import CardsSection from '@/components/molecules/cards_section/cards_section'
 import Header from '@/components/molecules/header/header'
 import { Metadata } from 'next'
 
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 }
 
 export default function Home() {
-  return <Header />
+  return (
+    <main className="flex flex-col">
+      <Header />
+      <CardsSection />
+    </main>
+  )
 }
