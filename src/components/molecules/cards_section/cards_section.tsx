@@ -5,25 +5,28 @@ export default function CardsSection() {
   const features = [
     {
       image: 'images/header.avif',
+      alt: '',
       title: 'title 1 ',
       description:
         'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
     },
     {
       image: 'images/header.avif',
+      alt: '',
       title: 'title 2 ',
       description:
         'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
     },
     {
       image: 'images/header.avif',
+      alt: '',
       title: 'title 3 ',
       description:
         'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
     },
   ]
   return (
-    <section className="mx-10 flex flex-col items-center justify-center pt-10">
+    <section className="mx-10 flex flex-col items-center justify-center pt-10 md:pt-20">
       <div className="flex flex-col items-center justify-center gap-4">
         <RobotoText text="Nuestros Servicios" tag="h2" fontSize="32px" />
         <RobotoText
@@ -34,7 +37,7 @@ export default function CardsSection() {
         />
       </div>
       <div className="flex grid-cols-1 flex-col items-center justify-center gap-10 pt-4 md:pt-10 lg:grid lg:grid-cols-3 lg:gap-10">
-        {features.map(({ image, title, description }) => (
+        {features.map(({ image, alt, title, description }) => (
           <div
             key={title}
             className="relative flex h-full max-h-[600px] max-w-[550px] flex-col items-center justify-center rounded-3xl border bg-transparent"
@@ -43,7 +46,7 @@ export default function CardsSection() {
               src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}${image}`}
               width={500}
               height={300}
-              alt="People enjoying bycambao party"
+              alt={alt}
               unoptimized
               className="h-auto w-full object-cover"
             />
