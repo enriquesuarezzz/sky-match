@@ -1,4 +1,5 @@
 import CardsSection from '@/components/molecules/cards_section/cards_section'
+import Features from '@/components/molecules/features/features'
 import FirstSection from '@/components/molecules/first_section/first_section'
 import Header from '@/components/molecules/header/header'
 import { Metadata } from 'next'
@@ -14,6 +15,7 @@ export default function Home() {
       <Header />
       <CardsSection />
       <FirstSection />
+      <Features />
     </main>
   )
 }
