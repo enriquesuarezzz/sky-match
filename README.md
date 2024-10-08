@@ -47,13 +47,3 @@ npm run dev
 
 
 	5.	Open http://localhost:3000 to view it in your browser.
-
-Contributing
-
-Contributions are welcome! If you’d like to suggest features or report bugs, please open an issue or submit a pull request.
-
-License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-Let me know if you’d like to adjust it further!
