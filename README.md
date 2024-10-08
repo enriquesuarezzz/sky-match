@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+SkyMatch Frontend
 
-First, run the development server:
+Project Overview
 
-```bash
+SkyMatch is a web-based platform designed to connect airlines looking to rent aircraft and crew with those offering these resources. This repository contains the frontend implementation of the platform, focusing on providing a user-friendly interface to search, view, and filter aircraft and crew options. Future iterations will include a separate backend project to handle data management and server-side functionality.
+
+Features
+
+	•	Responsive Design: Optimized for both desktop and mobile use.
+	•	Aircraft Listings: View detailed aircraft profiles with essential information such as type, capacity, and availability.
+	•	Search & Filters: Easily search for aircraft and crew using criteria like location, availability, and capacity.
+	•	User Dashboard: A dedicated area where users can view available options and track their activity on the platform.
+
+Technologies Used
+
+	•	React / Next.js: For building the frontend UI components and routing.
+	•	Tailwind CSS: For streamlined and responsive styling.
+	•	JavaScript / TypeScript: For component logic and type safety.
+	•	React Context API: For state management across the application.
+
+Future Development
+
+	•	Backend Integration: A separate backend project will handle data storage, authentication, and business logic.
+	•	API Endpoints: The frontend will connect to a RESTful API for data retrieval and updates.
+	•	Booking Management: Adding functionality for submitting and managing rental requests.
+
+Installation & Setup
+
+	1.	Clone the repository:
+
+git clone https://github.com/yourusername/skymatch-frontend.git
+
+
+	2.	Navigate to the project directory:
+
+cd skymatch-frontend
+
+
+	3.	Install dependencies:
+
+npm install
+
+
+	4.	Run the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+	5.	Open http://localhost:3000 to view it in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Contributing
 
-## Learn More
+Contributions are welcome! If you’d like to suggest features or report bugs, please open an issue or submit a pull request.
 
-To learn more about Next.js, take a look at the following resources:
+License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Let me know if you’d like to adjust it further!
