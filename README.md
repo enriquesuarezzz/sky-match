@@ -17,7 +17,6 @@ Technologies Used
 	•	React / Next.js: For building the frontend UI components and routing.
 	•	Tailwind CSS: For streamlined and responsive styling.
 	•	JavaScript / TypeScript: For component logic and type safety.
-	•	React Context API: For state management across the application.
 
 Future Development
 
