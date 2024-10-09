@@ -23,16 +23,20 @@ export default function Header() {
         priority
         className="h-full max-h-[700px] w-full"
       />
+      {/* nav */}
       <nav className="absolute top-0 flex w-full items-center justify-center gap-24 pt-6 md:gap-10 md:pt-16">
+        {/* logo */}
         <Image
           src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/logo.avif`}
-          alt="plane flying image"
+          alt="skymatch logo"
           width={130}
           height={130}
           unoptimized
           priority
         />
+        {/* links */}
         <div className="hidden gap-1 md:flex md:gap-6 lg:gap-20">
+          {/* Home */}
           <Link href={'/'}>
             <RobotoText
               text="Inicio"
@@ -40,6 +44,7 @@ export default function Header() {
               className="text-white hover:text-blue-700"
             />
           </Link>
+          {/* About Us */}
           <Link href={'/'}>
             <RobotoText
               text="Sobre Nosotros"
@@ -47,6 +52,7 @@ export default function Header() {
               className="text-white hover:text-blue-700"
             />
           </Link>
+          {/* Services */}
           <Link href={'/'}>
             <RobotoText
               text="Servicios"
@@ -54,6 +60,7 @@ export default function Header() {
               className="text-white hover:text-blue-700"
             />
           </Link>
+          {/* Airlines and Planes */}
           <Link href={'/'}>
             <RobotoText
               text="Aerolineas y flota"
@@ -61,6 +68,7 @@ export default function Header() {
               className="text-white hover:text-blue-700"
             />
           </Link>
+          {/* Contact */}
           <Link href={'/'}>
             <RobotoText
               text="Contacto"
@@ -69,6 +77,7 @@ export default function Header() {
             />
           </Link>
         </div>
+        {/* Mobile burguer button */}
         <button onClick={toggleMenu} className="md:hidden">
           <Burguer />
         </button>
@@ -84,6 +93,7 @@ export default function Header() {
         {isMenuOpen && (
           <div className="fixed right-0 top-0 z-50 flex h-full w-80 flex-col bg-blue-500/60 p-6 px-10 shadow-lg md:hidden">
             <div className="mb-4 flex w-full justify-between">
+              {/* Logo */}
               <Image
                 src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/logo.avif`}
                 alt="plane flying image"
@@ -92,16 +102,20 @@ export default function Header() {
                 unoptimized
                 priority
               />
+              {/* title */}
               <RobotoText
                 text="SkyMatch"
                 fontSize="20px"
                 className="text-white"
               />
+              {/* close button */}
               <button onClick={toggleMenu}>
                 <Close />
               </button>
             </div>
+            {/* links */}
             <div className="flex flex-col gap-2">
+              {/* Home */}
               <Link href={'/'}>
                 <RobotoText
                   text="Inicio"
@@ -109,6 +123,7 @@ export default function Header() {
                   className="text-white hover:text-blue-700"
                 />
               </Link>
+              {/* About Us */}
               <Link href={'/'}>
                 <RobotoText
                   text="Sobre Nosotros"
@@ -116,6 +131,7 @@ export default function Header() {
                   className="text-white hover:text-blue-700"
                 />
               </Link>
+              {/* Services */}
               <Link href={'/'}>
                 <RobotoText
                   text="Servicios"
@@ -123,6 +139,7 @@ export default function Header() {
                   className="text-white hover:text-blue-700"
                 />
               </Link>
+              {/* Airlines and Planes */}
               <Link href={'/'}>
                 <RobotoText
                   text="Aerolineas y flota"
@@ -130,6 +147,7 @@ export default function Header() {
                   className="text-white hover:text-blue-700"
                 />
               </Link>
+              {/* Contact */}
               <Link href={'/'}>
                 <RobotoText
                   text="Contacto"
