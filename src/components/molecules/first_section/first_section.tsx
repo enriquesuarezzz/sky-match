@@ -20,14 +20,14 @@ export default function FirstSection() {
           />
         </div>
         {/* image */}
-        <div className="max-w-[500px] md:max-w-[600px]">
+        <div className="mx-8 max-w-[500px] md:mx-20 md:max-w-[600px]">
           <Image
             src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/plane_sunset.avif`}
             alt="plane flying during sunset image"
             width={700}
             height={800}
             unoptimized
-            className="w-full rounded-3xl pt-4 md:rounded-none md:rounded-l-2xl md:pt-0"
+            className="w-full rounded-3xl pt-4 md:rounded-2xl md:pt-0"
           />
         </div>
       </div>
