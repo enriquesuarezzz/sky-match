@@ -1,5 +1,6 @@
 'use client'
 import { RobotoText } from '@/components/atoms/roboto_text'
+import BlackLogo from '@/components/atoms/svg/black_logo'
 import Burguer from '@/components/atoms/svg/burguer'
 import Close from '@/components/atoms/svg/close'
 import Image from 'next/image'
@@ -21,19 +22,12 @@ export default function Header() {
         height={250}
         unoptimized
         priority
-        className="h-full max-h-[700px] w-full"
+        className="h-full max-h-[700px] w-full object-cover"
       />
       {/* nav */}
-      <nav className="absolute top-0 flex w-full items-center justify-center gap-24 pt-6 md:gap-10 md:pt-16">
+      <nav className="absolute top-0 flex w-full items-center justify-center gap-24 pt-0 md:gap-10 md:pt-16">
         {/* logo */}
-        <Image
-          src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/logo.avif`}
-          alt="skymatch logo"
-          width={130}
-          height={130}
-          unoptimized
-          priority
-        />
+        <BlackLogo className="size-28 md:size-44" />
         {/* links */}
         <div className="hidden gap-1 md:flex md:gap-6 lg:gap-20">
           {/* Home */}
@@ -41,7 +35,7 @@ export default function Header() {
             <RobotoText
               text="Inicio"
               fontSize="20px"
-              className="text-white hover:text-blue-700"
+              className="hover:text-blue text-white"
             />
           </Link>
           {/* About Us */}
@@ -49,7 +43,7 @@ export default function Header() {
             <RobotoText
               text="Sobre Nosotros"
               fontSize="20px"
-              className="text-white hover:text-blue-700"
+              className="hover:text-blue text-white"
             />
           </Link>
           {/* Services */}
@@ -57,7 +51,7 @@ export default function Header() {
             <RobotoText
               text="Servicios"
               fontSize="20px"
-              className="text-white hover:text-blue-700"
+              className="hover:text-blue text-white"
             />
           </Link>
           {/* Airlines and Planes */}
@@ -65,7 +59,7 @@ export default function Header() {
             <RobotoText
               text="Aerolineas y flota"
               fontSize="20px"
-              className="text-white hover:text-blue-700"
+              className="hover:text-blue text-white"
             />
           </Link>
           {/* Contact */}
@@ -73,7 +67,7 @@ export default function Header() {
             <RobotoText
               text="Contacto"
               fontSize="20px"
-              className="text-white hover:text-blue-700"
+              className="hover:text-blue text-white"
             />
           </Link>
         </div>
@@ -120,7 +114,7 @@ export default function Header() {
                 <RobotoText
                   text="Inicio"
                   fontSize="18px"
-                  className="text-white hover:text-blue-700"
+                  className="hover:text-blue text-white"
                 />
               </Link>
               {/* About Us */}
@@ -128,7 +122,7 @@ export default function Header() {
                 <RobotoText
                   text="Sobre Nosotros"
                   fontSize="18px"
-                  className="text-white hover:text-blue-700"
+                  className="hover:text-blue text-white"
                 />
               </Link>
               {/* Services */}
@@ -136,7 +130,7 @@ export default function Header() {
                 <RobotoText
                   text="Servicios"
                   fontSize="18px"
-                  className="text-white hover:text-blue-700"
+                  className="hover:text-blue text-white"
                 />
               </Link>
               {/* Airlines and Planes */}
@@ -144,7 +138,7 @@ export default function Header() {
                 <RobotoText
                   text="Aerolineas y flota"
                   fontSize="18px"
-                  className="text-white hover:text-blue-700"
+                  className="hover:text-blue text-white"
                 />
               </Link>
               {/* Contact */}
@@ -152,7 +146,7 @@ export default function Header() {
                 <RobotoText
                   text="Contacto"
                   fontSize="18px"
-                  className="text-white hover:text-blue-700"
+                  className="hover:text-blue text-white"
                 />
               </Link>
             </div>
