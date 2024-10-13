@@ -13,7 +13,7 @@ export default function Header() {
         height={250}
         unoptimized
         priority
-        className="h-full max-h-[700px] w-full"
+        className="h-full max-h-[600px] w-full"
       />
 
       {/* header text */}

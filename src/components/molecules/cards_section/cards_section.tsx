@@ -5,22 +5,22 @@ export default function CardsSection() {
   //cards data
   const features = [
     {
-      image: 'images/header.avif',
-      alt: '',
+      image: 'images/cabin_crew.avif',
+      alt: 'cabin crew in the cockpit',
       title: 'title 1 ',
       description:
         'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
     },
     {
-      image: 'images/header.avif',
-      alt: '',
+      image: 'images/aircraft_engine.avif',
+      alt: 'aircraft engine',
       title: 'title 2 ',
       description:
         'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
     },
     {
-      image: 'images/header.avif',
-      alt: '',
+      image: 'images/private_plane.avif',
+      alt: 'private plane interior',
       title: 'title 3 ',
       description:
         'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
@@ -50,10 +50,10 @@ export default function CardsSection() {
             <Image
               src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}${image}`}
               width={500}
-              height={300}
+              height={400}
               alt={alt}
               unoptimized
-              className="h-auto w-full object-cover"
+              className="h-full w-full object-cover"
             />
             {/* card content */}
             <div className="px-4 py-4 md:px-6">

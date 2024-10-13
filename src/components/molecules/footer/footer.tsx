@@ -6,7 +6,7 @@ import X from '@/components/atoms/svg/x'
 import Link from 'next/link'
 export default function Footer() {
   return (
-    <footer className="bottom-0 mt-10 flex w-full flex-col items-center justify-items-center bg-gray-900 py-10 md:mt-24 md:py-12">
+    <footer className="bottom-0 mt-10 flex w-full flex-col items-center justify-items-center bg-gray-900 py-10 md:mt-24 md:py-10">
       <WhiteLogo />
       <div className="flex flex-col items-center gap-8">
         <div className="flex gap-3 md:gap-6">
@@ -14,35 +14,35 @@ export default function Footer() {
             <RobotoText
               text="Inicio"
               fontSize="18px"
-              className="hover:text-blue text-white"
+              className="text-white hover:text-blue"
             />
           </Link>
           <Link href={'/'}>
             <RobotoText
               text="Sobre Nosotros"
               fontSize="18px"
-              className="hover:text-blue text-white"
+              className="text-white hover:text-blue"
             />
           </Link>
           <Link href={'/'}>
             <RobotoText
               text="Servicios"
               fontSize="18px"
-              className="hover:text-blue text-white"
+              className="text-white hover:text-blue"
             />
           </Link>
           <Link href={'/'}>
             <RobotoText
               text="Aerolineas y flota"
               fontSize="18px"
-              className="hover:text-blue text-white"
+              className="text-white hover:text-blue"
             />
           </Link>
           <Link href={'/'}>
             <RobotoText
               text="Contacto"
               fontSize="18px"
-              className="hover:text-blue text-white"
+              className="text-white hover:text-blue"
             />
           </Link>
         </div>
