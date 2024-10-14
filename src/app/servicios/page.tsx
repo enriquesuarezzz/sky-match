@@ -33,7 +33,7 @@ export default function Servicios() {
       {/* header image */}
       <Image
         src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/services_header.avif`}
-        alt="byCambao dj image"
+        alt="plane flying image"
         width={1384}
         height={420}
         className="max-h-[500px] w-full object-cover"
