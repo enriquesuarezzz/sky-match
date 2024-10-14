@@ -44,7 +44,7 @@ export default function Navbar() {
           />
         </Link>
         {/* Contact */}
-        <Link href={'/'}>
+        <Link href={'/contacto'}>
           <RobotoText
             text="Contacto"
             fontSize="20px"
