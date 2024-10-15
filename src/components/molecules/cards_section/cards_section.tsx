@@ -7,23 +7,23 @@ export default function CardsSection() {
     {
       image: 'images/cabin_crew.avif',
       alt: 'cabin crew in the cockpit',
-      title: 'title 1 ',
+      title: 'Tripulación cualificada ',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
+        'Nuestra tripulación está compuesta por pilotos altamente capacitados y personal de cabina experimentado, listos para cubrir tus necesidades operativas de manera segura y eficiente.',
     },
     {
       image: 'images/aircraft_engine.avif',
       alt: 'aircraft engine',
-      title: 'title 2 ',
+      title: 'Amplia gama de aeronaves',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
+        'Ofrecemos una amplia selección de aviones disponibles para alquiler, adaptados a diversas necesidades operativas. Desde aeronaves pequeñas para vuelos regionales hasta jets comerciales para trayectos largos.',
     },
     {
       image: 'images/private_plane.avif',
       alt: 'private plane interior',
-      title: 'title 3 ',
+      title: 'Vuela en Aviones Privados ',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
+        'Ofrecemos una exclusiva selección de aviones privados disponibles para alquiler, ideales para viajes de lujo y corporativos. Cada aeronave está equipada con las comodidades necesarias para garantizar una experiencia de vuelo excepcional. ',
     },
   ]
   return (
@@ -33,8 +33,7 @@ export default function CardsSection() {
         <RobotoText text="Nuestros Servicios" tag="h2" fontSize="32px" />
         {/* description */}
         <RobotoText
-          text="Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis vivamus tincidunt maecenas vehicula, nullam nisl sollicitudin ante ridiculus commodo pharetra tempor porttitor. Hendrerit nisl nascetur dignissim sagittis egestas pellentesque cum rutrum quis nunc, "
-          tag="h2"
+          text="En SkyMatch, conectamos aerolíneas que necesitan alquilar aviones y tripulación con proveedores disponibles. Facilitamos la búsqueda y comparación de aeronaves, pilotos y personal de cabina, todo gestionado en tiempo real y con soporte 24/7. "
           fontSize="16px"
           className="max-w-[700px] text-center"
         />
@@ -44,7 +43,7 @@ export default function CardsSection() {
         {features.map(({ image, alt, title, description }) => (
           <div
             key={title}
-            className="relative flex h-full max-h-[600px] max-w-[550px] flex-col items-center justify-center rounded-3xl border bg-transparent"
+            className="relative flex h-full max-h-[500px] max-w-[500px] flex-col items-center justify-center rounded-3xl border bg-transparent"
           >
             {/* card image */}
             <Image
@@ -53,20 +52,20 @@ export default function CardsSection() {
               height={400}
               alt={alt}
               unoptimized
-              className="h-full w-full object-cover"
+              className="h-full max-h-[350px] w-full"
             />
             {/* card content */}
-            <div className="px-4 py-4 md:px-6">
+            <div className="">
               {/* card title */}
               <RobotoText
                 text={title}
-                fontSize="32px"
+                fontSize="20px"
                 className="pt-1 text-center md:pt-4"
               />
               {/* card description */}
               <RobotoText
                 text={description}
-                fontSize="16px"
+                fontSize="14px"
                 className="px-4 pb-6 pt-4 text-center md:px-6"
               />
             </div>
