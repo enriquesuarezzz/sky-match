@@ -7,15 +7,14 @@ export default function FirstSection() {
         <div className="mx-8 flex max-w-[600px] flex-col gap-4 md:mx-20">
           {/* title */}
           <RobotoText
-            text="Lorem ipsum dolor sit amet consectetur adipiscing"
+            text="Despreocupate de buscar entre cientos de aerolíneas de todo el mundo"
             tag="h3"
             fontSize="32px"
             className="pt-4 md:pt-0"
           />
           {/* description */}
           <RobotoText
-            text="Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis vivamus tincidunt maecenas vehicula, nullam nisl sollicitudin ante ridiculus commodo pharetra tempor porttitor.  "
-            tag="h3"
+            text="Nunca había sido tan fácil buscar la mejor opción acorde a tus necesidades operativas. Con nuestro sistema de alquiler de aviones, podrá alquilar el avion que necesites y lo que necesites. ¡Confiar en nuestro servicio es nuestra mejor inversión!"
             fontSize="16px"
           />
         </div>
