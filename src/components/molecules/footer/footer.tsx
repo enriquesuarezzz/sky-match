@@ -19,13 +19,6 @@ export default function Footer() {
           </Link>
           <Link href={'/'}>
             <RobotoText
-              text="Sobre Nosotros"
-              fontSize="18px"
-              className="text-white hover:text-blue"
-            />
-          </Link>
-          <Link href={'/'}>
-            <RobotoText
               text="Servicios"
               fontSize="18px"
               className="text-white hover:text-blue"
