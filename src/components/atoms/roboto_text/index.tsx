@@ -11,7 +11,7 @@ export interface RobotoTextProps {
   text: string
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p'
   style?: 'light' | 'normal' | 'semibold' | 'bold'
-  fontSize?: '16px' | '18px' | '20px' | '32px' | '48px'
+  fontSize?: '14px' | '16px' | '18px' | '20px' | '32px' | '48px'
 
   leading?: 'normal' | 'none' | 'tight' | 'snug' | 'relaxed' | 'loose'
   className?: string
@@ -38,6 +38,8 @@ export const RobotoText = forwardRef<
 
     function getSize() {
       switch (fontSize) {
+        case '14px':
+          return 'text-[14px]'
         case '16px':
           return 'text-[12px] md:text-[16px]'
         case '18px':

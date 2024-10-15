@@ -1,45 +1,49 @@
 import { RobotoText } from '@/components/atoms/roboto_text'
-import Plane from '@/components/atoms/svg/plane'
-import World from '@/components/atoms/svg/world'
+import Discount from '@/components/atoms/svg/features/discount'
+import Dog from '@/components/atoms/svg/features/dog'
+import Pilot from '@/components/atoms/svg/features/pilot'
+import Plane from '@/components/atoms/svg/features/plane'
+import Star from '@/components/atoms/svg/features/star'
+import World from '@/components/atoms/svg/features/world'
 
 export default function Features() {
   //feautures data
   const features = [
     {
-      icon: <Plane className="size-14 md:size-32 lg:size-32" />,
-      title: 'title 1 ',
+      icon: <Plane className="size-14 md:size-32" />,
+      title: 'Todo tipo de aviones',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, ',
+        'Tenemos una amplia gama de aviones disponibles para alquiler, adaptados a tus necesidades operativas.',
     },
     {
-      icon: <World className="size-14 md:size-32 lg:size-32" />,
-      title: 'title 2 ',
+      icon: <World className="size-14 md:size-32" />,
+      title: 'Infinidad de destinos',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, ',
+        'Cualquier destino que se te venga a la mente, tenemos la solución perfecta para ti.',
     },
     {
-      icon: <Plane className="size-14 md:size-32 lg:size-32" />,
-      title: 'title 3 ',
+      icon: <Pilot className="size-14 md:size-32" />,
+      title: 'Tripulaciones cualificadas',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, ',
+        'Nuestra tripulación está compuesta por pilotos altamente capacitados y personal de cabina experimentado.',
     },
     {
-      icon: <World className="size-14 md:size-32 lg:size-32" />,
-      title: 'title 4 ',
+      icon: <Star className="size-14 md:size-32" />,
+      title: 'Lujo y confort',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, ',
+        'Disfruta de nuestra gama de aviones privados para viajes de lujo y corporativos.',
     },
     {
-      icon: <Plane className="size-14 md:size-32 lg:size-32" />,
-      title: 'title 5 ',
+      icon: <Discount className="size-14 md:size-32" />,
+      title: 'Descuentos y ofertas',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, ',
+        'Ofrecemos descuentos y ofertas exclusivas para nuestros clientes.',
     },
     {
-      icon: <World className="size-14 md:size-32 lg:size-32" />,
-      title: 'title 6 ',
+      icon: <Dog className="size-14 md:size-32" />,
+      title: 'Aceptamos mascotas',
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, ',
+        'Aceptamos ofrecer el servicio de PETC o AVIH para los clientes con mascotas.',
     },
   ]
   return (
@@ -48,13 +52,13 @@ export default function Features() {
         {/* title */}
         <div className="flex max-w-[800px] flex-col gap-6">
           <RobotoText
-            text="LOREMP IPSUM DOLOR SIT AMET CONSECTETUR !"
+            text="¿POR QUE VIAJAR CON NOSOTROS?"
             tag="h3"
             fontSize="32px"
           />
           {/* description */}
           <RobotoText
-            text="Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus,  vivamus tincidunt maecenas vehicula, nullam nisl sollicitudin ante ridiculus commodo pharetra tempor porttitor.  "
+            text="Ofremos los servicios más alla de la seguridad y la comodidad de viajar con confianza. Nuestra experiencia de 15 años en el mundo de la aerolineas nos ha permitido crear un sistema de alquiler de aviones que se adapta a tus necesidades operativas."
             fontSize="16px"
           />
         </div>
