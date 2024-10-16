@@ -13,7 +13,7 @@ export default function Contacto() {
     <main className="flex flex-col">
       {/* header image */}
       <Image
-        src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/services_header.avif`}
+        src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/plane_flying.avif`}
         alt="plane flying image"
         width={1384}
         height={420}
