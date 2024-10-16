@@ -12,128 +12,101 @@ const AccordionContent: React.FC<AccordionProps> = ({ one, two, three }) => {
   const services = {
     one: [
       {
-        title: 'service 1  ',
-        price: '20000€',
+        title: 'Aviones Comerciales Pequeños',
+        price: 'Desde 4000€ hasta 6500€ por hora de vuelo',
         description:
-          'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
+          'Entre estos aviones podemos encontar principalmente ATR72',
       },
       {
-        title: 'service 1 ',
-        price: '30000€',
+        title: 'Aviones Comerciales Medianos',
+        price: 'Desde 10000€ hasta 20000€ por hora de vuelo',
         description:
-          'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
+          'Entre estos aviones podemos encontar Boeing 737, Boeing 737-Max, Airbus A319, Airbus A320',
+      },
+      {
+        title: 'Aviones Comerciales Grandes',
+        price: 'Desde 25000€ hasta 60000€ por hora de vuelo',
+        description:
+          'Entre estos aviones podemos encontrar Boeing 777, Airbus A330, Airbus A340, Airbus A350',
       },
     ],
     two: [
       {
-        title: 'service 1 ',
-        price: '80000€',
+        title: 'Jets Ligeros',
+        price: 'Desde 1500€ hasta 3500€ por hora de vuelo',
         description:
-          'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
+          'Entre estos aviones podemos encontrar Cessna Citation CJ3 o Phenom 300 ',
       },
       {
-        title: 'service 2  ',
-        price: '1000000€',
+        title: 'Jets Medianos',
+        price: 'Desde 3500€ hasta 7000€ por hora de vuelo',
         description:
-          'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
-      },
-    ],
-    three: [
-      {
-        title: 'service 1 ',
-        price: '8345000€',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
-      },
-      {
-        title: 'service 2  ',
-        price: '45600€',
-        description:
-          'Lorem ipsum dolor sit amet consectetur adipiscing elit lacus leo lectus, justo est aliquet ullamcorper magna iaculis',
+          'Entre estos aviones podemos encontrar Hawker 800 o Learjet 60',
       },
     ],
   }
 
   return (
     <section className="flex flex-col gap-6">
-      {/* Create an accordion based on the props using the information from the services array */}
-      {/* map of the items of the services array */}
       {one &&
         services.one.map((item, index) => (
-          <div key={index} className="flex flex-row p-4">
-            <div className="flex flex-col">
-              {/* title */}
-              <RobotoText
-                text={item.title}
-                fontSize="20px"
-                className="text-gray-500"
-              />
-              {/* price */}
+          <div
+            key={index}
+            className="m-1 flex flex-col items-start justify-between rounded-lg border border-gray-200 bg-gray-50 p-6 shadow-sm transition-all duration-200 ease-in-out hover:shadow-md md:flex-row md:items-center"
+          >
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-center gap-2">
+                {/* Title */}
+                <RobotoText
+                  text={item.title}
+                  fontSize="20px"
+                  className="w-1/2 font-medium text-gray-900"
+                />
+                {/* Description */}
+                <RobotoText
+                  text={item.description}
+                  fontSize="16px"
+                  className="w-1/2 text-gray-600"
+                />
+              </div>
+              {/* Price */}
               <RobotoText
                 text={item.price}
-                fontSize="32px"
-                className="text-blue-500 font-bold"
+                fontSize="14px"
+                className="pt-3 text-center"
               />
             </div>
-            {/* description */}
-            <RobotoText
-              text={item.description}
-              fontSize="16px"
-              className="flex items-center justify-center pl-4 text-center text-gray-400"
-            />
           </div>
         ))}
-      {/* Create an accordion based on the props using the information from the services array */}
-      {/* map of the items of the services array */}
+
       {two &&
         services.two.map((item, index) => (
-          <div key={index} className="flex flex-row p-4">
-            {/* title  */}
-            <div className="flex flex-col">
-              <RobotoText
-                text={item.title}
-                fontSize="20px"
-                className="text-gray-500"
-              />
-              {/* price */}
-              <RobotoText
-                text={item.price}
-                fontSize="32px"
-                className="text-blue-500 font-bold"
-              />
-            </div>
-            {/* description */}
-            <RobotoText
-              text={item.description}
-              fontSize="16px"
-              className="flex items-center justify-center pl-4 text-center text-gray-400"
-            />
-          </div>
-        ))}
-      {/* map of the items of the services array */}
-      {three &&
-        services.two.map((item, index) => (
-          <div key={index} className="flex flex-row p-4">
-            {/* title  */}
-            <div className="flex flex-col">
-              <RobotoText
-                text={item.title}
-                fontSize="20px"
-                className="text-gray-500"
-              />
-              {/* price */}
+          <div
+            key={index}
+            className="m-1 flex flex-col items-start justify-between rounded-lg border border-gray-200 bg-gray-50 p-6 shadow-sm transition-all duration-200 ease-in-out hover:shadow-md md:flex-row md:items-center"
+          >
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-center gap-2">
+                {/* Title */}
+                <RobotoText
+                  text={item.title}
+                  fontSize="20px"
+                  className="w-1/2 font-medium text-gray-900"
+                />
+                {/* Description */}
+                <RobotoText
+                  text={item.description}
+                  fontSize="16px"
+                  className="w-1/2 text-gray-600"
+                />
+              </div>
+              {/* Price */}
               <RobotoText
                 text={item.price}
-                fontSize="32px"
-                className="text-blue-500 font-bold"
+                fontSize="14px"
+                className="pt-3 text-center"
               />
             </div>
-            {/* description */}
-            <RobotoText
-              text={item.description}
-              fontSize="16px"
-              className="flex items-center justify-center pl-4 text-center text-gray-400"
-            />
           </div>
         ))}
     </section>
