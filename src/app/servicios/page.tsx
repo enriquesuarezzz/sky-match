@@ -12,22 +12,17 @@ export const metadata: Metadata = {
 export default function Servicios() {
   const accordionOne = [
     {
-      title: 'accordion title 1',
+      title: 'Aviones Comerciales',
       content: <AccordionContent one />,
     },
   ]
   const accordionTwo = [
     {
-      title: 'accordion title 2',
+      title: 'Jets Privados',
       content: <AccordionContent two />,
     },
   ]
-  const accordionThree = [
-    {
-      title: 'accordion title 3',
-      content: <AccordionContent three />,
-    },
-  ]
+
   return (
     <main className="flex flex-col">
       {/* header image */}
@@ -57,11 +52,11 @@ export default function Servicios() {
         </div>
       </div>
       {/* services section with image and accordion */}
-      <section className="mx-10 flex items-center justify-between gap-10 pt-10">
+      <section className="mx-10 flex items-center justify-center gap-32 pt-10">
         <div className="flex flex-col">
           <Image
-            src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/services_header.avif`}
-            alt="plane flying image"
+            src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/comercial_plane_interior.avif`}
+            alt="comercial plane interior"
             width={500}
             height={500}
             unoptimized
@@ -73,8 +68,8 @@ export default function Servicios() {
         </div>
         <div className="flex flex-col">
           <Image
-            src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/services_header.avif`}
-            alt="plane flying image"
+            src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/private_plane_services.avif`}
+            alt="private jet"
             width={500}
             height={500}
             unoptimized
@@ -82,19 +77,6 @@ export default function Servicios() {
           />
           <div className="max-w-[430px] p-4">
             <Accordion items={accordionTwo} />
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <Image
-            src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/services_header.avif`}
-            alt="plane flying image"
-            width={500}
-            height={500}
-            unoptimized
-            className="h-full max-h-[430px] w-full object-cover md:max-w-[430px]"
-          />
-          <div className="max-w-[430px] p-4">
-            <Accordion items={accordionThree} />
           </div>
         </div>
       </section>
