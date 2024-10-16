@@ -1,6 +1,7 @@
 import { RobotoText } from '@/components/atoms/roboto_text'
 
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Header() {
   return (
@@ -33,13 +34,17 @@ export default function Header() {
           className="text-white"
         />
         {/* button */}
-        <button className="w-fit rounded-full bg-green-700/55 p-2 hover:bg-green-700 md:p-3">
+
+        <Link
+          className="w-fit rounded-full bg-green-700/55 p-2 hover:bg-green-700 md:p-3"
+          href="/servicios"
+        >
           <RobotoText
             text="Más información"
             fontSize="16px"
             className="text-white"
           />
-        </button>
+        </Link>
       </div>
     </header>
   )
