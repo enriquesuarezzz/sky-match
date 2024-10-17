@@ -4,10 +4,9 @@ import React from 'react'
 interface AccordionProps {
   one?: boolean
   two?: boolean
-  three?: boolean
 }
 
-const AccordionContent: React.FC<AccordionProps> = ({ one, two, three }) => {
+const AccordionContent: React.FC<AccordionProps> = ({ one, two }) => {
   //services data
   const services = {
     one: [
