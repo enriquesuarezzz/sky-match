@@ -17,7 +17,7 @@ export default function Footer() {
               className="text-white hover:text-blue"
             />
           </Link>
-          <Link href={'/'}>
+          <Link href={'/servicios'}>
             <RobotoText
               text="Servicios"
               fontSize="18px"
@@ -31,7 +31,7 @@ export default function Footer() {
               className="text-white hover:text-blue"
             />
           </Link>
-          <Link href={'/'}>
+          <Link href={'/contacto'}>
             <RobotoText
               text="Contacto"
               fontSize="18px"
