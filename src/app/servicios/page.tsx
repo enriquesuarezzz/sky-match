@@ -52,28 +52,28 @@ export default function Servicios() {
         </div>
       </div>
       {/* services section with image and accordion */}
-      <section className="mx-10 flex items-center justify-center gap-32 pt-10">
-        <div className="flex flex-col">
+      <section className="mx-10 flex flex-col items-center justify-center gap-12 pt-10 md:flex-row md:gap-20 lg:gap-32">
+        <div className="flex flex-col items-center justify-center">
           <Image
             src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/comercial_plane_interior.avif`}
             alt="comercial plane interior"
             width={500}
             height={500}
             unoptimized
-            className="h-full max-h-[430px] w-full object-cover md:max-w-[430px]"
+            className="h-full max-h-[250px] w-full object-cover md:max-w-[300px] lg:max-w-[430px]"
           />
           <div className="max-w-[430px] p-4">
             <Accordion items={accordionOne} />
           </div>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center justify-center">
           <Image
             src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/private_plane_services.avif`}
             alt="private jet"
             width={500}
             height={500}
             unoptimized
-            className="h-full max-h-[430px] w-full object-cover md:max-w-[430px]"
+            className="h-full max-h-[250px] w-full object-cover md:max-w-[300px] lg:max-w-[430px]"
           />
           <div className="max-w-[430px] p-4">
             <Accordion items={accordionTwo} />
