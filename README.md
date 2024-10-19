@@ -1,5 +1,6 @@
 
-SkyMatch Frontend
+#skyMacth
+NextJS + Typescript + TailwindCSS 
 
 Project Overview
 
