@@ -1,7 +1,5 @@
 # skyMatch
 
-NextJS + Typescript + TailwindCSS 
-
 Project Overview
 
 SkyMatch is a web-based platform designed to connect airlines looking to rent aircraft and crew with those offering these resources. This repository contains the frontend implementation of the platform, focusing on providing a user-friendly interface to search, view, and filter aircraft and crew options. Future iterations will include a separate backend project to handle data management and server-side functionality.
