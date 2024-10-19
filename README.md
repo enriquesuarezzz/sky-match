@@ -1,6 +1,6 @@
-##skyMatch
+# skyMatch
 
-#NextJS + Typescript + TailwindCSS 
+NextJS + Typescript + TailwindCSS 
 
 Project Overview
 
