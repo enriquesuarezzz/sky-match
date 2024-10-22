@@ -36,7 +36,7 @@ export default function Navbar() {
           />
         </Link>
         {/* Airlines and Planes */}
-        <Link href={'/'}>
+        <Link href={'/aerolineas-y-flota'}>
           <RobotoText
             text="Aerolineas y flota"
             fontSize="20px"
