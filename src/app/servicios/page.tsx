@@ -1,6 +1,7 @@
 import { RobotoText } from '@/components/atoms/roboto_text'
 import Accordion from '@/components/molecules/accordion/accordion'
 import AccordionContent from '@/components/molecules/accordion/accordion_content'
+import RentalForm from '@/components/molecules/rental_form/rental_form'
 import { Metadata } from 'next'
 import Image from 'next/image'
 
@@ -35,7 +36,7 @@ export default function Servicios() {
         unoptimized
       />
       {/* title and subtitle */}
-      <div className="flex flex-col items-center justify-center pt-10">
+      <div className="mx-10 flex flex-col items-center justify-center pt-10">
         <div className="flex flex-col items-center justify-center gap-4">
           <RobotoText
             tag="h1"

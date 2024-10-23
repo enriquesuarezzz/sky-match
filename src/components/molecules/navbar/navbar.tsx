@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Burguer from '@/components/atoms/svg/burguer'
 import Close from '@/components/atoms/svg/close'
 import { useState } from 'react'
+import LogIn from '@/components/atoms/svg/log_in'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -36,9 +37,9 @@ export default function Navbar() {
           />
         </Link>
         {/* Airlines and Planes */}
-        <Link href={'/aerolineas-y-flota'}>
+        <Link href={'/reservar'}>
           <RobotoText
-            text="Aerolineas y flota"
+            text="Reservar"
             fontSize="20px"
             className="text-white hover:text-blue"
           />
@@ -50,6 +51,9 @@ export default function Navbar() {
             fontSize="20px"
             className="text-white hover:text-blue"
           />
+        </Link>
+        <Link href={'/login'}>
+          <LogIn />
         </Link>
       </div>
       {/* Mobile burguer button */}

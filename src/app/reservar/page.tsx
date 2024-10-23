@@ -1,4 +1,4 @@
-import AerolineasYFlota from '@/components/molecules/airlines_and_aircrafts_info/airlines_and_aircrafts_info'
+import AircraftBook from '@/components/molecules/aircraft_book/aircraft_book'
 import { Metadata } from 'next'
 import Image from 'next/image'
 
@@ -7,19 +7,19 @@ export const metadata: Metadata = {
   description: 'Conectando aerolíneas, optimizando operaciones',
 }
 
-export default function AerolineasYFlotaPage() {
+export default function Reservar() {
   return (
     <main className="flex flex-col">
       {/* header image */}
       <Image
-        src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/plane_flying.avif`}
-        alt="plane flying image"
+        src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/booking_page_header.avif`}
+        alt="airport platform image"
         width={1384}
         height={420}
         className="max-h-[500px] w-full object-cover"
         unoptimized
       />
-      <AerolineasYFlota />
+      <AircraftBook />
     </main>
   )
 }

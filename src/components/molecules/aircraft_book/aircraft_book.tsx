@@ -2,6 +2,7 @@
 import { RobotoText } from '@/components/atoms/roboto_text'
 import { useEffect, useState } from 'react'
 import { Bars } from 'react-loader-spinner'
+import Modal from 'react-modal' // Import the modal package
 import {
   A11y,
   Autoplay,
@@ -12,7 +13,7 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
 
-//define the structure of the data
+// Define the structure of the data
 interface Airlines {
   id: number
   name: string
@@ -31,13 +32,17 @@ interface Aircrafts {
   aircraft_image_url: string
 }
 
-// create the states to store the data
-export default function AerolineasYFlota() {
+// Create the states to store the data
+export default function AircraftBook() {
   const [airlines, setAirlines] = useState<Airlines[]>([])
   const [aircrafts, setAircrafts] = useState<Aircrafts[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [selectedAircraft, setSelectedAircraft] = useState<Aircrafts | null>(
+    null,
+  ) // New state for selected aircraft
+  const [isModalOpen, setIsModalOpen] = useState(false) // State to manage modal visibility
 
-  //fetch the data of the api
+  // Fetch the data of the API
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,8 +65,19 @@ export default function AerolineasYFlota() {
     fetchData()
   }, [])
 
+  // Open the modal and set the selected aircraft
+  const handleAircraftClick = (aircraft: Aircrafts) => {
+    setSelectedAircraft(aircraft)
+    setIsModalOpen(true)
+  }
+
+  // Close the modal
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setSelectedAircraft(null)
+  }
+
   return (
-    // if the data is loading show a loader
     <section className="flex flex-col items-center justify-center bg-gray-100 py-10">
       {isLoading ? (
         <div className="flex h-40 flex-col items-center justify-center">
@@ -70,8 +86,6 @@ export default function AerolineasYFlota() {
             width="80"
             color="#4fa94d"
             ariaLabel="bars-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
             visible={true}
           />
           <div className="font-onest mt-4 text-xl font-bold text-gray-600">
@@ -79,7 +93,7 @@ export default function AerolineasYFlota() {
           </div>
         </div>
       ) : (
-        //swiper to show the data
+        // Swiper to show the data
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
           spaceBetween={20}
@@ -88,29 +102,33 @@ export default function AerolineasYFlota() {
           speed={3000}
           autoplay={{ delay: 0 }}
         >
-          {/* swiper slide for each aircraft */}
+          {/* Swiper slide for each aircraft */}
           {aircrafts.map((aircraft) => (
-            <SwiperSlide key={aircraft.id} className="w-full max-w-[300px]">
+            <SwiperSlide
+              key={aircraft.id}
+              className="w-full max-w-[300px]"
+              onClick={() => handleAircraftClick(aircraft)} // On click, show modal
+            >
               <div className="flex flex-col items-center justify-center rounded-lg bg-white p-4 shadow-lg">
-                {/* aircraft type */}
+                {/* Aircraft type */}
                 <RobotoText
                   text={aircraft.type}
                   fontSize="18px"
                   className="text-center text-lg font-bold text-gray-800"
                 />
-                {/* aircraft image */}
+                {/* Aircraft image */}
                 <img
                   src={aircraft.aircraft_image_url}
                   alt={aircraft.type}
                   className="mt-3 h-48 w-full rounded-lg object-cover shadow-sm"
                 />
-                {/* aircraft capacity */}
+                {/* Aircraft capacity */}
                 <RobotoText
                   text={`Capacidad: ${aircraft.capacity.toString()} pasajeros`}
                   fontSize="18px"
                   className="mt-2 text-center text-gray-500"
                 />
-                {/* aircraft price per hour */}
+                {/* Aircraft price per hour */}
                 <RobotoText
                   text={`Precio por hora: ${aircraft.price_per_hour.toString()} €`}
                   fontSize="18px"
@@ -121,6 +139,55 @@ export default function AerolineasYFlota() {
           ))}
         </Swiper>
       )}
+
+      {/* Modal for rental form */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        className="modal-class" // Add your custom class styles here
+        overlayClassName="overlay-class" // Add your custom overlay styles here
+      >
+        <div className="flex flex-col items-center p-4">
+          <h2 className="text-2xl font-bold">
+            {/* Display selected aircraft's type */}
+            Rentar el avión: {selectedAircraft?.type}
+          </h2>
+          <form className="mt-4 flex flex-col">
+            {/* Add your rental form fields here */}
+
+            {/* Rental date input */}
+            <label className="mt-4">
+              Fecha de alquiler:
+              <input type="date" className="mt-2 rounded-md border p-2" />
+            </label>
+            <label>
+              Duración del alquiler
+              <input
+                type="number"
+                className="mt-2 rounded-md border p-2"
+                placeholder="(En horas)"
+              />
+            </label>
+            <label>
+              Introduzca el trayecto previsto
+              <input
+                type="text"
+                className="mt-2 rounded-md border p-2"
+                placeholder="ej: ACE-BCN"
+              />
+            </label>
+            <button type="submit" className="mt-4 rounded-md bg-blue p-2">
+              Enviar solicitud de alquiler
+            </button>
+          </form>
+          <button
+            onClick={closeModal}
+            className="mt-4 rounded-md bg-red-500 p-2 text-white"
+          >
+            Cerrar
+          </button>
+        </div>
+      </Modal>
     </section>
   )
 }
