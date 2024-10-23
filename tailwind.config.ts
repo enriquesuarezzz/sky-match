@@ -13,9 +13,6 @@ const config: Config = {
         foreground: 'var(--foreground)',
         blue: '#0284c7',
       },
-      maxWidth: {
-        '8xl': '1850px',
-      },
     },
   },
   plugins: [],

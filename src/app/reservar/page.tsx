@@ -12,7 +12,7 @@ export default function Reservar() {
     <main className="flex flex-col">
       {/* header image */}
       <Image
-        src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/airlanes_and_aircrafts_header.avif`}
+        src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/booking_page_header.avif`}
         alt="airport platform image"
         width={1384}
         height={420}
