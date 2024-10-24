@@ -4,7 +4,7 @@ import { UseFormRegisterReturn } from 'react-hook-form'
 interface InputProps {
   id?: string
   label?: string
-  type?: 'text' | 'email' | 'tel' | 'checkbox' // Specify possible input types
+  type?: 'text' | 'email' | 'tel' | 'checkbox' | 'password' // Specify possible input types
   name: string
   value?: string
   textArea?: boolean // Flag to determine if textarea should be rendered
