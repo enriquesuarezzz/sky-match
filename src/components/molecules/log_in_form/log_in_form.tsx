@@ -3,14 +3,15 @@ import { FC, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { RobotoText } from '@/components/atoms/roboto_text'
 import Input from '../input/input'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 // Define the structure of form data
 type LoginFormInputs = {
   email: string
   password: string
 }
-//Create the states to store the data
+
+// Create the states to store the data
 const LoginForm: FC = () => {
   const {
     register,
@@ -33,9 +34,19 @@ const LoginForm: FC = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/login`,
         data,
       )
+      // Assuming the response contains a token
+      const { token } = response.data
+      // Store token in localStorage or cookies
+      localStorage.setItem('authToken', token)
       setLoginSuccess(true)
     } catch (error) {
-      setLoginError('Email o contraseña incorrectos')
+      if (axios.isAxiosError(error)) {
+        setLoginError(
+          error.response?.data?.message || 'Email o contraseña incorrectos',
+        )
+      } else {
+        setLoginError('Hubo un problema, por favor intenta más tarde.')
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -60,6 +71,7 @@ const LoginForm: FC = () => {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                 message: 'Email no es válido',
               },
+              onChange: () => setLoginError(null), // Clear error on change
             })}
             className="w-full border-b border-black"
           />
@@ -74,7 +86,10 @@ const LoginForm: FC = () => {
             type="password"
             id="password"
             label="Password"
-            {...register('password', { required: 'Introduce tu contraseña' })}
+            {...register('password', {
+              required: 'Introduce tu contraseña',
+              onChange: () => setLoginError(null), // Clear error on change
+            })}
             className="w-full border-b border-black"
           />
           {errors.password && (
@@ -89,7 +104,7 @@ const LoginForm: FC = () => {
         className="inline-flex items-center justify-center gap-x-2 rounded-lg bg-blue px-6 py-3 text-sm font-semibold disabled:opacity-50"
         disabled={isSubmitting}
       >
-        {isSubmitting ? 'Iniciando...' : 'Inciar Sesión'}
+        {isSubmitting ? 'Iniciando...' : 'Iniciar Sesión'}
       </button>
 
       {/* Error message */}
