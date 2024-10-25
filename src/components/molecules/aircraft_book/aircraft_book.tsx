@@ -2,7 +2,7 @@
 import { RobotoText } from '@/components/atoms/roboto_text'
 import { useEffect, useState } from 'react'
 import { Bars } from 'react-loader-spinner'
-import Modal from 'react-modal' // Import the modal package
+import Modal from 'react-modal'
 import {
   A11y,
   Autoplay,
@@ -13,7 +13,7 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
 
-// Define the structure of the data
+// Define interfaces for your data
 interface Airlines {
   id: number
   name: string
@@ -32,18 +32,22 @@ interface Aircrafts {
   aircraft_image_url: string
 }
 
-// Create the states to store the data
 export default function AircraftBook() {
   const [airlines, setAirlines] = useState<Airlines[]>([])
   const [aircrafts, setAircrafts] = useState<Aircrafts[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [selectedAircraft, setSelectedAircraft] = useState<Aircrafts | null>(
     null,
-  ) // New state for selected aircraft
-  const [isModalOpen, setIsModalOpen] = useState(false) // State to manage modal visibility
+  )
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isUserSignedIn, setIsUserSignedIn] = useState(false)
 
-  // Fetch the data of the API
   useEffect(() => {
+    // Check if user token is present (simple authentication check)
+    const token = localStorage.getItem('authToken')
+    setIsUserSignedIn(!!token)
+
+    // Fetch airline and aircraft data
     const fetchData = async () => {
       try {
         const responseAirlines = await fetch(
@@ -54,8 +58,8 @@ export default function AircraftBook() {
         )
         const dataAirlines = await responseAirlines.json()
         const dataAircrafts = await responseAircrafts.json()
-        setAirlines(dataAirlines)
-        setAircrafts(dataAircrafts)
+        setAirlines(Array.isArray(dataAirlines) ? dataAirlines : [])
+        setAircrafts(Array.isArray(dataAircrafts) ? dataAircrafts : [])
         setIsLoading(false)
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -65,13 +69,16 @@ export default function AircraftBook() {
     fetchData()
   }, [])
 
-  // Open the modal and set the selected aircraft
+  // Handle aircraft rental click
   const handleAircraftClick = (aircraft: Aircrafts) => {
+    if (!isUserSignedIn) {
+      alert('Please sign in to rent a plane')
+      return
+    }
     setSelectedAircraft(aircraft)
     setIsModalOpen(true)
   }
 
-  // Close the modal
   const closeModal = () => {
     setIsModalOpen(false)
     setSelectedAircraft(null)
@@ -88,12 +95,9 @@ export default function AircraftBook() {
             ariaLabel="bars-loading"
             visible={true}
           />
-          <div className="font-onest mt-4 text-xl font-bold text-gray-600">
-            <RobotoText text="Cargando..." />
-          </div>
+          <RobotoText text="Cargando..." fontSize="20px" style="bold" />
         </div>
       ) : (
-        // Swiper to show the data
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
           spaceBetween={20}
@@ -102,35 +106,26 @@ export default function AircraftBook() {
           speed={3000}
           autoplay={{ delay: 0 }}
         >
-          {/* Swiper slide for each aircraft */}
           {aircrafts.map((aircraft) => (
             <SwiperSlide
               key={aircraft.id}
               className="w-full max-w-[300px]"
-              onClick={() => handleAircraftClick(aircraft)} // On click, show modal
+              onClick={() => handleAircraftClick(aircraft)}
             >
-              <div className="flex flex-col items-center justify-center rounded-lg bg-white p-4 shadow-lg">
-                {/* Aircraft type */}
-                <RobotoText
-                  text={aircraft.type}
-                  fontSize="18px"
-                  className="text-center text-lg font-bold text-gray-800"
-                />
-                {/* Aircraft image */}
+              <div className="flex flex-col items-center rounded-lg bg-white p-4 shadow-lg">
+                <RobotoText text={aircraft.type} fontSize="18px" style="bold" />
                 <img
                   src={aircraft.aircraft_image_url}
                   alt={aircraft.type}
                   className="mt-3 h-48 w-full rounded-lg object-cover shadow-sm"
                 />
-                {/* Aircraft capacity */}
                 <RobotoText
-                  text={`Capacidad: ${aircraft.capacity.toString()} pasajeros`}
+                  text={`Capacidad: ${aircraft.capacity} pasajeros`}
                   fontSize="18px"
                   className="mt-2 text-center text-gray-500"
                 />
-                {/* Aircraft price per hour */}
                 <RobotoText
-                  text={`Precio por hora: ${aircraft.price_per_hour.toString()} €`}
+                  text={`Precio por hora: ${aircraft.price_per_hour} €`}
                   fontSize="18px"
                   className="mt-1 text-center text-gray-500"
                 />
@@ -140,28 +135,28 @@ export default function AircraftBook() {
         </Swiper>
       )}
 
-      {/* Modal for rental form */}
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        className="modal-class" // Add your custom class styles here
-        overlayClassName="overlay-class" // Add your custom overlay styles here
-      >
+      <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
         <div className="flex flex-col items-center p-4">
-          <h2 className="text-2xl font-bold">
-            {/* Display selected aircraft's type */}
-            Rentar el avión: {selectedAircraft?.type}
-          </h2>
+          <RobotoText
+            text={`Alquilar el avión ${selectedAircraft?.type}`}
+            fontSize="20px"
+            style="bold"
+          />
           <form className="mt-4 flex flex-col">
-            {/* Add your rental form fields here */}
-
-            {/* Rental date input */}
             <label className="mt-4">
-              Fecha de alquiler:
+              <RobotoText
+                text="Fecha de alquiler"
+                fontSize="20px"
+                style="bold"
+              />
               <input type="date" className="mt-2 rounded-md border p-2" />
             </label>
             <label>
-              Duración del alquiler
+              <RobotoText
+                text="Duración del alquiler"
+                fontSize="20px"
+                style="bold"
+              />
               <input
                 type="number"
                 className="mt-2 rounded-md border p-2"
@@ -169,7 +164,11 @@ export default function AircraftBook() {
               />
             </label>
             <label>
-              Introduzca el trayecto previsto
+              <RobotoText
+                text="Introduzca el trayecto previsto"
+                fontSize="20px"
+                style="bold"
+              />
               <input
                 type="text"
                 className="mt-2 rounded-md border p-2"
@@ -177,14 +176,18 @@ export default function AircraftBook() {
               />
             </label>
             <button type="submit" className="mt-4 rounded-md bg-blue p-2">
-              Enviar solicitud de alquiler
+              <RobotoText
+                text="Enviar solicitud"
+                fontSize="20px"
+                style="bold"
+              />
             </button>
           </form>
           <button
             onClick={closeModal}
             className="mt-4 rounded-md bg-red-500 p-2 text-white"
           >
-            Cerrar
+            <RobotoText text="Cerrar" fontSize="20px" style="bold" />
           </button>
         </div>
       </Modal>

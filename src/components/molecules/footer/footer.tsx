@@ -24,7 +24,7 @@ export default function Footer() {
               className="text-white hover:text-blue"
             />
           </Link>
-          <Link href={'/Reservar'}>
+          <Link href={'/reservar'}>
             <RobotoText
               text="Reservar"
               fontSize="18px"
