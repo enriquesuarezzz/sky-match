@@ -1,7 +1,6 @@
 import { RobotoText } from '@/components/atoms/roboto_text'
 import Accordion from '@/components/molecules/accordion/accordion'
 import AccordionContent from '@/components/molecules/accordion/accordion_content'
-import RentalForm from '@/components/molecules/rental_form/rental_form'
 import { Metadata } from 'next'
 import Image from 'next/image'
 
