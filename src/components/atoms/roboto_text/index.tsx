@@ -45,7 +45,7 @@ export const RobotoText = forwardRef<
         case '18px':
           return 'text-[12px] md:text-[16px] lg:text-[18px]'
         case '20px':
-          return 'text-[20px]'
+          return 'text-[14px] md:text-[16px] lg:text-[20px]'
         case '32px':
           return 'text-[14px] md:text-[20px] lg:text-[32px]'
         case '48px':
