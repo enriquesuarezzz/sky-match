@@ -3,7 +3,7 @@ import { FC, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { RobotoText } from '@/components/atoms/roboto_text'
 import Input from '../input/input'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 
 // Define the structure of form data
 type LoginFormInputs = {
