@@ -56,10 +56,10 @@ const LoginForm: FC = () => {
     // Form
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center gap-8 pt-6"
+      className="flex w-full max-w-[500px] flex-col items-center gap-8 pt-6"
     >
       <RobotoText tag="h1" text="Iniciar Sesión" fontSize="32px" style="bold" />
-      <div className="w-full max-w-[700px]">
+      <div className="flex w-full flex-col gap-3">
         {/* Email input */}
         <div className="flex w-full flex-col gap-4">
           <Input

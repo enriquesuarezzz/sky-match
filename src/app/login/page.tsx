@@ -1,4 +1,4 @@
-import LoginForm from '@/components/molecules/log_in_form/log_in_form'
+import AuthPage from '@/components/molecules/log_in_or_register/log_in_or_register'
 import { Metadata } from 'next'
 import Image from 'next/image'
 
@@ -19,7 +19,7 @@ export default function Login() {
         className="max-h-[500px] w-full object-cover"
         unoptimized
       />
-      <LoginForm />
+      <AuthPage />
     </main>
   )
 }
