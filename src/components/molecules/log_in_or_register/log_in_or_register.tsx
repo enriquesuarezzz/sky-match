@@ -4,7 +4,7 @@ import RegisterForm from '../register_form/register_form'
 import LoginForm from '../log_in_form/log_in_form'
 import { RobotoText } from '@/components/atoms/roboto_text'
 
-const loginOrRegister: FC = () => {
+const LoginOrRegister: FC = () => {
   const [activeForm, setActiveForm] = useState<'login' | 'register'>('login')
 
   return (
@@ -39,4 +39,4 @@ const loginOrRegister: FC = () => {
   )
 }
 
-export default loginOrRegister
+export default LoginOrRegister
