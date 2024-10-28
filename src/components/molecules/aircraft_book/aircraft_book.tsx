@@ -12,8 +12,10 @@ import {
 } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
+import Notification from '../notification/notification'
+import axios from 'axios'
+import { useForm } from 'react-hook-form'
 
-// Define interfaces for your data
 interface Aircrafts {
   id: number
   airline_id: number
@@ -33,18 +35,35 @@ export default function AircraftBook() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isLogInModalOpen, setLogInModalOpen] = useState(false)
   const [isUserSignedIn, setIsUserSignedIn] = useState(false)
+  const [userAirlineId, setUserAirlineId] = useState<number | null>(null)
+  const [notification, setNotification] = useState<{
+    message: string
+    type: 'success' | 'error'
+  } | null>(null)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<{
+    rental_date: string
+    rental_duration_hours: number
+    route: string
+  }>()
 
   useEffect(() => {
     const token = localStorage.getItem('authToken')
     setIsUserSignedIn(!!token)
+    setUserAirlineId(1) // TODO: Replace with actual user airline ID
 
+    //fetch aircrafts
     const fetchData = async () => {
       try {
-        const responseAircrafts = await fetch(
-          process.env.NEXT_PUBLIC_API_URL + '/aircrafts',
+        const responseAircrafts = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/aircrafts`,
         )
-        const dataAircrafts = await responseAircrafts.json()
-        setAircrafts(Array.isArray(dataAircrafts) ? dataAircrafts : [])
+        setAircrafts(responseAircrafts.data)
         setIsLoading(false)
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -54,6 +73,7 @@ export default function AircraftBook() {
     fetchData()
   }, [])
 
+  //check if airline is logged in to open rental modal
   const handleAircraftClick = (aircraft: Aircrafts) => {
     if (!isUserSignedIn) {
       setLogInModalOpen(true)
@@ -62,14 +82,65 @@ export default function AircraftBook() {
     setIsModalOpen(true)
   }
 
+  //handle close modal
   const closeModal = () => {
     setIsModalOpen(false)
     setLogInModalOpen(false)
     setSelectedAircraft(null)
+    reset()
+  }
+
+  //handle sumbit of the rental form
+  const onSubmit = async (data: {
+    rental_date: string
+    rental_duration_hours: number
+    route: string
+  }) => {
+    if (!selectedAircraft || !userAirlineId) return
+
+    try {
+      const rentalData = {
+        aircraft_id: selectedAircraft.id,
+        airline_requesting_id: userAirlineId,
+        rental_date: data.rental_date,
+        rental_duration_hours: data.rental_duration_hours,
+        route: data.route,
+      }
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/rentals`,
+        rentalData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      const result = response.data
+      if (response.status === 200) {
+        setNotification({
+          message: `Rental successful! Total cost: €${result.rental_cost}`,
+          type: 'success',
+        })
+      } else {
+        setNotification({
+          message: result.message || 'Rental failed.',
+          type: 'error',
+        })
+      }
+    } catch (error) {
+      console.error('Error submitting rental:', error)
+      setNotification({
+        message: 'There was an error. Please try again later.',
+        type: 'error',
+      })
+    }
   }
 
   return (
     <section className="relative flex flex-col items-center justify-center py-10">
+      {/* loading bars while fetching data */}
       {isLoading ? (
         <div className="flex h-40 flex-col items-center justify-center">
           <Bars
@@ -82,9 +153,11 @@ export default function AircraftBook() {
           <RobotoText text="Cargando..." fontSize="20px" style="bold" />
         </div>
       ) : (
+        //if the data is fetched
         <div
           className={`${isModalOpen ? 'pointer-events-none opacity-50 blur-sm' : ''}`}
         >
+          {/* swiper of aircrafts */}
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
             spaceBetween={20}
@@ -127,6 +200,16 @@ export default function AircraftBook() {
         </div>
       )}
 
+      {/* notification Component */}
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
+
+      {/* rental Modal */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
@@ -139,20 +222,46 @@ export default function AircraftBook() {
             fontSize="20px"
             style="bold"
           />
-          <form className="mt-1 flex flex-col gap-2">
-            <label className="pt-2">
+          {/* rental form */}
+          <form
+            className="mt-1 flex flex-col gap-2"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            {/* date */}
+            <label className="flex flex-col pt-2">
               <RobotoText text="Fecha de alquiler" fontSize="16px" />
-              <input type="date" className="mt-2 rounded-md border p-2" />
+              <input
+                type="date"
+                className="mt-2 rounded-md border p-2"
+                {...register('rental_date', {
+                  required: 'Introduce la fecha de alquiler',
+                })}
+              />
+              {errors.rental_date && (
+                <span className="text-red-500">
+                  {errors.rental_date.message}
+                </span>
+              )}
             </label>
-            <label>
+            {/* rental duration */}
+            <label className="flex flex-col">
               <RobotoText text="Duración del alquiler" fontSize="16px" />
               <input
                 type="number"
                 className="mt-2 rounded-md border p-2"
                 placeholder="(En horas)"
+                {...register('rental_duration_hours', {
+                  required: 'Introduce la duración del alquiler',
+                })}
               />
+              {errors.rental_duration_hours && (
+                <span className="text-red-500">
+                  {errors.rental_duration_hours.message}
+                </span>
+              )}
             </label>
-            <label>
+            {/* route */}
+            <label className="flex flex-col">
               <RobotoText
                 text="Introduzca el trayecto previsto"
                 fontSize="16px"
@@ -161,15 +270,22 @@ export default function AircraftBook() {
                 type="text"
                 className="mt-2 rounded-md border p-2"
                 placeholder="ej: ACE-BCN"
+                {...register('route', {
+                  required: 'Introduce el trayecto previsto',
+                })}
               />
+              {errors.route && (
+                <span className="text-red-500">{errors.route.message}</span>
+              )}
             </label>
+            {/* submit button */}
+            <button
+              type="submit"
+              className="mt-4 w-fit rounded-md bg-blue p-2 text-white"
+            >
+              <RobotoText text="Enviar solicitud" fontSize="16px" />
+            </button>
           </form>
-          <button
-            type="submit"
-            className="mt-4 w-fit rounded-md bg-blue p-2 text-white"
-          >
-            <RobotoText text="Enviar solicitud" fontSize="16px" />
-          </button>
           <button
             onClick={closeModal}
             className="mt-4 rounded-md bg-red-500 p-2 text-white"
@@ -178,6 +294,8 @@ export default function AircraftBook() {
           </button>
         </div>
       </Modal>
+
+      {/* if user is not logged in */}
       <Modal
         isOpen={isLogInModalOpen}
         onRequestClose={closeModal}
