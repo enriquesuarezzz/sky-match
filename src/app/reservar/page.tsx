@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 export const metadata: Metadata = {
   title: 'skyMatch | Aerolíneas y Flota',
-  description: 'Conectando aerolíneas, optimizando operaciones',
+  description: 'Reservar',
 }
 
 export default function Reservar() {

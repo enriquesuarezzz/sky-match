@@ -51,26 +51,25 @@ export default function AircraftBook() {
     rental_duration_hours: number
     route: string
   }>()
-
+  //get the user id from local storage
   useEffect(() => {
     const token = localStorage.getItem('authToken')
-    setIsUserSignedIn(!!token)
-    setUserAirlineId(1) // TODO: Replace with actual user airline ID
 
-    //fetch aircrafts
-    const fetchData = async () => {
+    if (token) {
       try {
-        const responseAircrafts = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/aircrafts`,
-        )
-        setAircrafts(responseAircrafts.data)
-        setIsLoading(false)
+        const base64Payload = token.split('.')[1]
+
+        // Check if the payload is present
+        if (!base64Payload) {
+          throw new Error('Invalid token format')
+        }
+        const payload = JSON.parse(atob(base64Payload))
+        setUserAirlineId(payload.airlineId)
       } catch (error) {
-        console.error('Error fetching data:', error)
-        setIsLoading(false)
+        console.error('Error decoding token:', error)
+        setUserAirlineId(null)
       }
     }
-    fetchData()
   }, [])
 
   //check if airline is logged in to open rental modal
