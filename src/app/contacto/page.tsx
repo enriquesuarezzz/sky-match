@@ -13,16 +13,16 @@ export default function Contacto() {
     <main className="flex flex-col">
       {/* header image */}
       <Image
-        src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/plane_flying.avif`}
+        src={`${process.env.NEXT_PUBLIC_IMAGES_PATH}images/contact_header.avif`}
         alt="plane flying image"
         width={1384}
         height={420}
-        className="max-h-[500px] w-full object-cover"
+        className="max-h-[300px] w-full object-cover md:max-h-[500px]"
         unoptimized
       />
       {/* title and subtitle */}
       <div className="flex flex-col items-center justify-center">
-        <div className="mx-auto max-w-8xl px-4 xl:px-10">
+        <div className="max-w-8xl mx-6 px-4 pb-6 xl:px-10">
           <div className="flex flex-col items-center justify-center pt-2 md:pt-10">
             <RobotoText
               text="Contacto"
