@@ -64,12 +64,29 @@ export default function AircraftBook() {
           throw new Error('Invalid token format')
         }
         const payload = JSON.parse(atob(base64Payload))
+        setIsUserSignedIn(true)
         setUserAirlineId(payload.airlineId)
       } catch (error) {
         console.error('Error decoding token:', error)
         setUserAirlineId(null)
       }
     }
+  }, [])
+  //fetch the aircrafts
+  useEffect(() => {
+    const fetchAircrafts = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/aircrafts`,
+        )
+        setAircrafts(response.data)
+        setIsLoading(false)
+      } catch (error) {
+        console.error('Error fetching aircrafts:', error)
+        setIsLoading(false)
+      }
+    }
+    fetchAircrafts()
   }, [])
 
   //check if airline is logged in to open rental modal
