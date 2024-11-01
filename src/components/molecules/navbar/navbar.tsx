@@ -8,7 +8,7 @@ export default function Navbar() {
   return (
     <nav className="absolute top-0 flex w-full items-center justify-center gap-1 pt-0 md:gap-10 md:pt-16">
       {/* logo */}
-      <BlackLogo />
+      <BlackLogo className="size-24 md:size-32 lg:size-40" />
       {/* links */}
       <div className="flex items-center justify-center gap-3 md:gap-14 lg:gap-20">
         {/* Home */}
