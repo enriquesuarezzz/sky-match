@@ -31,7 +31,7 @@ export default function Servicios() {
         alt="plane flying image"
         width={1384}
         height={420}
-        className="max-h-[500px] w-full object-cover"
+        className="max-h-[300px] w-full object-cover md:max-h-[500px]"
         unoptimized
       />
       {/* title and subtitle */}
