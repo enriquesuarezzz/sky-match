@@ -1,6 +1,7 @@
 import { RobotoText } from '@/components/atoms/roboto_text'
 import Accordion from '@/components/molecules/accordion/accordion'
 import AccordionContent from '@/components/molecules/accordion/accordion_content'
+import Reviews from '@/components/molecules/reviews/reviews'
 import { Metadata } from 'next'
 import Image from 'next/image'
 
@@ -79,6 +80,9 @@ export default function Servicios() {
             <Accordion items={accordionTwo} />
           </div>
         </div>
+      </section>
+      <section>
+        <Reviews />
       </section>
     </main>
   )
