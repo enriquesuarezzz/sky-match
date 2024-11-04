@@ -5,14 +5,18 @@ import { RobotoText } from '@/components/atoms/roboto_text'
 import Input from '../input/input'
 import axios from 'axios'
 
-// Define the structure of form data
+// define the structure of data
 type LoginFormInputs = {
   email: string
   password: string
 }
 
-// Create the states to store the data
-const LoginForm: FC = () => {
+interface LoginFormProps {
+  onLoginSuccess: () => void
+}
+
+// create the states to store the data
+const LoginForm: FC<LoginFormProps> = ({ onLoginSuccess }) => {
   const {
     register,
     handleSubmit,
@@ -21,24 +25,19 @@ const LoginForm: FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [loginError, setLoginError] = useState<string | null>(null)
-  const [loginSuccess, setLoginSuccess] = useState<boolean>(false)
 
-  // Function to handle form submission
+  // function to handle form submission to log in and set the token in local storage
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setIsSubmitting(true)
     setLoginError(null)
-    setLoginSuccess(false)
-
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/login`,
         data,
       )
-      // Assuming the response contains a token
       const { token } = response.data
-      // Store token in localStorage or cookies
       localStorage.setItem('authToken', token)
-      setLoginSuccess(true)
+      onLoginSuccess()
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setLoginError(
@@ -53,11 +52,11 @@ const LoginForm: FC = () => {
   }
 
   return (
-    // Form
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex w-full max-w-[500px] flex-col items-center gap-8 pt-6"
     >
+      {/* log in form */}
       <RobotoText tag="h1" text="Iniciar Sesión" fontSize="32px" style="bold" />
       <div className="flex w-full flex-col gap-3">
         {/* Email input */}
@@ -71,7 +70,7 @@ const LoginForm: FC = () => {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                 message: 'Email no es válido',
               },
-              onChange: () => setLoginError(null), // Clear error on change
+              onChange: () => setLoginError(null),
             })}
             className="w-full border-b border-black"
           />
@@ -88,7 +87,7 @@ const LoginForm: FC = () => {
             label="Password"
             {...register('password', {
               required: 'Introduce tu contraseña',
-              onChange: () => setLoginError(null), // Clear error on change
+              onChange: () => setLoginError(null),
             })}
             className="w-full border-b border-black"
           />
@@ -109,11 +108,6 @@ const LoginForm: FC = () => {
 
       {/* Error message */}
       {loginError && <p className="mt-2 text-red-500">{loginError}</p>}
-
-      {/* Success message */}
-      {loginSuccess && (
-        <p className="mt-2 text-green-500">¡Bienvenido de nuevo!</p>
-      )}
     </form>
   )
 }
