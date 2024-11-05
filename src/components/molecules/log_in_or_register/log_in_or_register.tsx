@@ -29,9 +29,11 @@ const LoginOrRegister: FC = () => {
         }
         const payload = JSON.parse(atob(base64Payload))
         setUserAirlineId(payload.airlineId)
+        setIsLoggedIn(true)
       } catch (error) {
         console.error('Error decoding token:', error)
         setUserAirlineId(null)
+        setIsLoggedIn(false)
       }
     }
   }, [])
