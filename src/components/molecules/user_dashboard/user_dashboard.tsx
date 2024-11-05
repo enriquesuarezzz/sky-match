@@ -25,7 +25,7 @@ interface Airline {
 interface UserDashboardProps {
   userId: number | null
 }
-
+// define the states
 const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
   const [rentals, setRentals] = useState<Rental[]>([])
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -34,8 +34,6 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
   const [airline, setAirline] = useState<Airline[]>([])
   const [editMode, setEditMode] = useState(false)
   const [updatedAirline, setUpdatedAirline] = useState<Airline | null>(null)
-  const [editRentalId, setEditRentalId] = useState<number | null>(null)
-  const [updatedRental, setUpdatedRental] = useState<Rental | null>(null)
 
   // fetch rentals
   useEffect(() => {
@@ -83,9 +81,11 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
     }
   }, [userId])
 
+  // handle edit airline and changes
+
   const handleEditAirline = () => {
     setEditMode(true)
-    setUpdatedAirline(airline[0]) // Set current airline data as default for editing
+    setUpdatedAirline(airline[0])
   }
 
   const handleChange = (field: keyof Airline, value: string) => {
@@ -94,6 +94,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
     }
   }
 
+  // update airline function
   const handleUpdateAirline = async () => {
     if (!updatedAirline) return
 
@@ -118,47 +119,6 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
       setErrorMessage(
         'An unexpected error occurred while updating the airline.',
       )
-    }
-  }
-
-  const handleEditRental = (rental: Rental) => {
-    setEditRentalId(rental.rental_id)
-    setUpdatedRental(rental)
-  }
-  const handleRentalChange = (field: keyof Rental, value: string | number) => {
-    if (updatedRental) {
-      setUpdatedRental({ ...updatedRental, [field]: value })
-    }
-  }
-  const handleUpdateRental = async () => {
-    if (!updatedRental) return
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/rentals/${updatedRental.rental_id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedRental),
-        },
-      )
-
-      if (response.ok) {
-        setRentals((prevRentals) =>
-          prevRentals.map((rental) =>
-            rental.rental_id === updatedRental.rental_id
-              ? updatedRental
-              : rental,
-          ),
-        )
-        setEditRentalId(null) // Exit edit mode
-        setUpdatedRental(null) // Clear the updated rental state
-      } else {
-        setErrorMessage('Error updating rental: ' + response.statusText)
-      }
-    } catch (error) {
-      console.error('Error updating rental:', error)
-      setErrorMessage('An unexpected error occurred while updating the rental.')
     }
   }
 
@@ -217,6 +177,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
           <div className="rounded border p-8">
             {editMode ? (
               <div className="space-y-2">
+                {/* input fields */}
                 <input
                   type="text"
                   value={updatedAirline?.name || ''}
@@ -254,6 +215,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
                   placeholder="Contraseña"
                   className="w-full rounded border p-2"
                 />
+                {/* save changes buttons */}
                 <button
                   onClick={handleUpdateAirline}
                   className="mt-2 w-full rounded bg-blue px-4 py-2"
@@ -264,6 +226,8 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
                     className="text-white"
                   />
                 </button>
+
+                {/* cancel button */}
                 <button
                   onClick={() => setEditMode(false)}
                   className="mt-2 w-full rounded bg-gray-600 px-4 py-2"
@@ -277,6 +241,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
               </div>
             ) : (
               <>
+                {/* airline information */}
                 <RobotoText
                   text={`Nombre de la aerolínea: ${airline[0].name}`}
                   fontSize="18px"
@@ -302,16 +267,23 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
                   fontSize="16px"
                   className="text-gray-600"
                 />
+
+                {/* edit button */}
                 <button
                   onClick={handleEditAirline}
-                  className="mt-2 w-full rounded bg-green-500 px-4 py-2 text-white"
+                  className="mt-2 w-full rounded bg-green-500 px-4 py-2"
                 >
-                  Editar Información
+                  <RobotoText
+                    text="Editar información"
+                    fontSize="16px"
+                    className="text-center text-white"
+                  />
                 </button>
               </>
             )}
           </div>
         ) : (
+          // error message
           <RobotoText
             text="No se encontró información de la aerolínea."
             fontSize="18px"
@@ -342,6 +314,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
               key={rental.rental_id}
               className="flex flex-col items-center justify-center rounded border p-8"
             >
+              {/* rental information */}
               <RobotoText
                 text={`Aeronave: ${rental.aircraft_type}`}
                 fontSize="18px"
@@ -386,6 +359,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
             </div>
           ))
         ) : (
+          // error message
           <RobotoText
             text="No hay reservas disponibles"
             fontSize="18px"
