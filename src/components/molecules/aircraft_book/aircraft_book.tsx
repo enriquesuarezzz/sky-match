@@ -12,9 +12,11 @@ import {
 } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.css'
-import Notification from '../notification/notification'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
+import React from 'react'
+import Popup from 'reactjs-popup'
+import 'reactjs-popup/dist/index.css'
 
 interface Aircrafts {
   id: number
@@ -115,6 +117,9 @@ export default function AircraftBook() {
     if (!selectedAircraft || !userAirlineId) return
 
     try {
+      const totalRentalCost =
+        data.rental_duration_hours * selectedAircraft.price_per_hour
+
       const rentalData = {
         aircraft_id: selectedAircraft.id,
         airline_requesting_id: userAirlineId,
@@ -136,7 +141,7 @@ export default function AircraftBook() {
       const result = response.data
       if (response.status === 200) {
         setNotification({
-          message: `Rental successful! Total cost: €${result.rental_cost}`,
+          message: `Rental successful! Total cost: €${totalRentalCost}`,
           type: 'success',
         })
       } else {
@@ -216,14 +221,33 @@ export default function AircraftBook() {
         </div>
       )}
 
-      {/* notification Component */}
-      {notification && (
-        <Notification
-          message={notification.message}
-          type={notification.type}
-          onClose={() => setNotification(null)}
-        />
-      )}
+      {/* Popup Notification */}
+      <Popup
+        open={!!notification}
+        onClose={() => setNotification(null)}
+        position="top center"
+        closeOnDocumentClick
+        className="w-[10px]"
+      >
+        <div
+          className={`${
+            notification?.type === 'success' ? 'bg-red-100' : 'bg-green-100'
+          } border ${
+            notification?.type === 'success'
+              ? 'border-red-400'
+              : 'border-green-400'
+          } w-full rounded-lg p-4 text-center text-gray-700 shadow-lg`}
+          style={{
+            width: '300px',
+            color: notification?.type === 'success' ? '#991b1b' : '#065f46',
+          }}
+        >
+          <p className="text-lg font-semibold">
+            {notification?.type === 'error' ? 'Error' : 'Perfecto!'}
+          </p>
+          <p className="text-md mt-1">{notification?.message}</p>
+        </div>
+      </Popup>
 
       {/* rental Modal */}
       <Modal
@@ -297,7 +321,7 @@ export default function AircraftBook() {
             {/* submit button */}
             <button
               type="submit"
-              className="mt-4 w-fit rounded-md bg-blue p-2 text-white"
+              className="mt-4 w-full rounded-md bg-blue p-2 text-white"
             >
               <RobotoText text="Enviar solicitud" fontSize="16px" />
             </button>

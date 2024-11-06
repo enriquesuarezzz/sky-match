@@ -17,6 +17,7 @@
     "react-hook-form": "^7.53.0",
     "react-loader-spinner": "^6.1.6",
     "react-modal": "^3.16.1",
+    "reactjs-popup": "^2.0.6",
     "swiper": "^11.1.14"
   },
   "devDependencies": {
