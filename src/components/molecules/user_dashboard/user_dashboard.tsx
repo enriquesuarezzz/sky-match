@@ -1,6 +1,7 @@
 'use client'
 import { FC, useEffect, useState } from 'react'
 import { RobotoText } from '@/components/atoms/roboto_text'
+import Modal from 'react-modal'
 
 // define the structure of the data
 interface Rental {
@@ -25,6 +26,12 @@ interface Airline {
 interface UserDashboardProps {
   userId: number | null
 }
+
+interface Review {
+  rating: number
+  review_text: string
+}
+
 // define the states
 const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
   const [rentals, setRentals] = useState<Rental[]>([])
@@ -33,7 +40,16 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
   const [loadingAirline, setLoadingAirline] = useState<boolean>(false)
   const [airline, setAirline] = useState<Airline[]>([])
   const [editMode, setEditMode] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [updatedAirline, setUpdatedAirline] = useState<Airline | null>(null)
+  const [showReviewForm, setShowReviewForm] = useState(false)
+  const [reviewData, setReviewData] = useState<Review>({
+    rating: 0,
+    review_text: '',
+  })
+  const [rentalIdForReview, setRentalIdForReview] = useState<number | null>(
+    null,
+  )
 
   // fetch rentals
   useEffect(() => {
@@ -153,6 +169,45 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
       console.error('Error deleting rental:', error)
       setErrorMessage('Ocurrió un error inesperado al cancelar la reserva.')
     }
+  }
+
+  const openReviewForm = (rentalId: number) => {
+    setRentalIdForReview(rentalId)
+    setShowReviewForm(true)
+    setIsModalOpen(true)
+  }
+
+  const handleSubmitReview = async () => {
+    if (!rentalIdForReview) return
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/reviews`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            airline_id: userId,
+            rental_id: rentalIdForReview,
+            ...reviewData,
+          }),
+        },
+      )
+
+      if (response.ok) {
+        alert('Review submitted successfully')
+        setShowReviewForm(false)
+        setReviewData({ rating: 0, review_text: '' })
+      } else {
+        alert('Failed to submit review')
+      }
+    } catch (error) {
+      console.error('Error submitting review:', error)
+      alert('An error occurred while submitting the review')
+    }
+  }
+  const closeModal = () => {
+    setIsModalOpen(false)
   }
 
   // render the dashboard
@@ -301,7 +356,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
         )}
       </div>
       {/* Rental information */}
-      <div className="flex flex-col items-center justify-center gap-10 md:flex-row">
+      <div className="grid grid-cols-4 items-center justify-center gap-10">
         {loadingRentals ? (
           <RobotoText
             text="Cargando reservas..."
@@ -356,6 +411,16 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
                   className="text-white"
                 />
               </button>
+              <button
+                className="mt-2 rounded bg-blue px-4 py-2 text-white"
+                onClick={() => openReviewForm(rental.rental_id)}
+              >
+                <RobotoText
+                  text="Dejar una reseña"
+                  fontSize="16px"
+                  className="text-white"
+                />
+              </button>
             </div>
           ))
         ) : (
@@ -373,6 +438,60 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
             fontSize="16px"
             className="text-center text-red-500"
           />
+        )}
+        {showReviewForm && (
+          <Modal
+            isOpen={isModalOpen}
+            onRequestClose={closeModal}
+            overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+            className="relative p-0"
+          >
+            <div className="flex w-[300px] flex-col items-center justify-center rounded-lg bg-white/80 p-4">
+              <RobotoText text="Deja tu reseña" fontSize="20px" style="bold" />
+              <div className="review-form flex w-full flex-col gap-3">
+                <select
+                  value={reviewData.rating}
+                  onChange={(e) =>
+                    setReviewData({ ...reviewData, rating: +e.target.value })
+                  }
+                  className="w-full rounded border p-2" // Optional styling
+                >
+                  <option value="" disabled>
+                    Select a rating (1-5)
+                  </option>
+                  {[1, 2, 3, 4, 5].map((rating) => (
+                    <option key={rating} value={rating}>
+                      {rating}
+                    </option>
+                  ))}
+                </select>
+
+                <textarea
+                  value={reviewData.review_text}
+                  onChange={(e) =>
+                    setReviewData({
+                      ...reviewData,
+                      review_text: e.target.value,
+                    })
+                  }
+                  placeholder="Write your review here"
+                ></textarea>
+                <button
+                  className="mt-4 rounded-md bg-blue p-2 text-white"
+                  onClick={handleSubmitReview}
+                >
+                  {' '}
+                  <RobotoText text="Enviar" fontSize="16px" />
+                </button>
+              </div>
+              <button
+                onClick={closeModal}
+                className="mt-4 rounded-md bg-red-500 p-2 text-white"
+              >
+                <RobotoText text="Cerrar" fontSize="16px" />
+              </button>
+            </div>
+          </Modal>
         )}
       </div>
     </div>
