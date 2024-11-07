@@ -141,19 +141,22 @@ export default function AircraftBook() {
       const result = response.data
       if (response.status === 200) {
         setNotification({
-          message: `Rental successful! Total cost: €${totalRentalCost}`,
+          message:
+            result.message ||
+            `Reserva confirmada. El precio total será de: ${totalRentalCost} €`,
           type: 'success',
         })
       } else {
         setNotification({
-          message: result.message || 'Rental failed.',
+          message: result.message || 'Ha ocurrido un error en su reserva',
           type: 'error',
         })
       }
     } catch (error) {
-      console.error('Error submitting rental:', error)
+      console.error('Ha ocurrido un error en su reserva', error)
       setNotification({
-        message: 'There was an error. Please try again later.',
+        message:
+          'Ha ocurrido un error en su reserva. Por favor, vuelva a intentarlo más tarde.',
         type: 'error',
       })
     }
@@ -242,9 +245,6 @@ export default function AircraftBook() {
             color: notification?.type === 'success' ? '#991b1b' : '#065f46',
           }}
         >
-          <p className="text-lg font-semibold">
-            {notification?.type === 'error' ? 'Error' : 'Perfecto!'}
-          </p>
           <p className="text-md mt-1">{notification?.message}</p>
         </div>
       </Popup>
