@@ -2,6 +2,7 @@
 import { FC, useEffect, useState } from 'react'
 import { RobotoText } from '@/components/atoms/roboto_text'
 import Modal from 'react-modal'
+import UserAircrafts from '../user_aircrafts/user_aircrafts'
 
 // define the structure of the data
 interface Rental {
@@ -220,7 +221,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
         className="text-center font-bold text-gray-800"
       />
 
-      <div className="max-w-lg space-y-4 rounded p-4">
+      <div className="max-w-[700px] space-y-4 rounded p-4">
         {/* Airline information */}
         {loadingAirline ? (
           <RobotoText
@@ -229,114 +230,119 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
             className="text-center text-gray-500"
           />
         ) : airline.length > 0 ? (
-          <div className="rounded border p-8">
-            {editMode ? (
-              <div className="space-y-2">
-                {/* input fields */}
-                <input
-                  type="text"
-                  value={updatedAirline?.name || ''}
-                  onChange={(e) => handleChange('name', e.target.value)}
-                  placeholder="Nombre de la aerolínea"
-                  className="w-full rounded border p-2"
-                />
-                <input
-                  type="text"
-                  value={updatedAirline?.country || ''}
-                  onChange={(e) => handleChange('country', e.target.value)}
-                  placeholder="País"
-                  className="w-full rounded border p-2"
-                />
-                <input
-                  type="email"
-                  value={updatedAirline?.email || ''}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  placeholder="Correo electrónico"
-                  className="w-full rounded border p-2"
-                />
-                <select
-                  value={updatedAirline?.rental_role || 'Lessor'}
-                  onChange={(e) => handleChange('rental_role', e.target.value)}
-                  className="w-full rounded border p-2"
-                >
-                  <option value="Lessor">Lessor</option>
-                  <option value="Lessee">Lessee</option>
-                  <option value="Both">Both</option>
-                </select>
-                <input
-                  type="password"
-                  value={updatedAirline?.password || ''}
-                  onChange={(e) => handleChange('password', e.target.value)}
-                  placeholder="Contraseña"
-                  className="w-full rounded border p-2"
-                />
-                {/* save changes buttons */}
-                <button
-                  onClick={handleUpdateAirline}
-                  className="mt-2 w-full rounded bg-blue px-4 py-2"
-                >
-                  <RobotoText
-                    text="Guardar Cambios"
-                    fontSize="16px"
-                    className="text-white"
+          <section className="flex flex-col gap-10 md:flex-row md:gap-24">
+            <div className="rounded border p-8">
+              {editMode ? (
+                <div className="space-y-2">
+                  {/* input fields */}
+                  <input
+                    type="text"
+                    value={updatedAirline?.name || ''}
+                    onChange={(e) => handleChange('name', e.target.value)}
+                    placeholder="Nombre de la aerolínea"
+                    className="w-full rounded border p-2"
                   />
-                </button>
+                  <input
+                    type="text"
+                    value={updatedAirline?.country || ''}
+                    onChange={(e) => handleChange('country', e.target.value)}
+                    placeholder="País"
+                    className="w-full rounded border p-2"
+                  />
+                  <input
+                    type="email"
+                    value={updatedAirline?.email || ''}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    placeholder="Correo electrónico"
+                    className="w-full rounded border p-2"
+                  />
+                  <select
+                    value={updatedAirline?.rental_role || 'Lessor'}
+                    onChange={(e) =>
+                      handleChange('rental_role', e.target.value)
+                    }
+                    className="w-full rounded border p-2"
+                  >
+                    <option value="Lessor">Lessor</option>
+                    <option value="Lessee">Lessee</option>
+                    <option value="Both">Both</option>
+                  </select>
+                  <input
+                    type="password"
+                    value={updatedAirline?.password || ''}
+                    onChange={(e) => handleChange('password', e.target.value)}
+                    placeholder="Contraseña"
+                    className="w-full rounded border p-2"
+                  />
+                  {/* save changes buttons */}
+                  <button
+                    onClick={handleUpdateAirline}
+                    className="mt-2 w-full rounded bg-blue px-4 py-2"
+                  >
+                    <RobotoText
+                      text="Guardar Cambios"
+                      fontSize="16px"
+                      className="text-white"
+                    />
+                  </button>
 
-                {/* cancel button */}
-                <button
-                  onClick={() => setEditMode(false)}
-                  className="mt-2 w-full rounded bg-gray-600 px-4 py-2"
-                >
+                  {/* cancel button */}
+                  <button
+                    onClick={() => setEditMode(false)}
+                    className="mt-2 w-full rounded bg-gray-600 px-4 py-2"
+                  >
+                    <RobotoText
+                      text="Cancelar"
+                      fontSize="16px"
+                      className="text-white"
+                    />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  {/* airline information */}
                   <RobotoText
-                    text="Cancelar"
-                    fontSize="16px"
-                    className="text-white"
+                    text={`Nombre de la aerolínea: ${airline[0].name}`}
+                    fontSize="18px"
+                    className="text-gray-600"
                   />
-                </button>
-              </div>
-            ) : (
-              <>
-                {/* airline information */}
-                <RobotoText
-                  text={`Nombre de la aerolínea: ${airline[0].name}`}
-                  fontSize="18px"
-                  className="text-gray-600"
-                />
-                <RobotoText
-                  text={`País: ${airline[0].country}`}
-                  fontSize="16px"
-                  className="text-gray-600"
-                />
-                <RobotoText
-                  text={`Correo electrónico: ${airline[0].email}`}
-                  fontSize="16px"
-                  className="text-gray-600"
-                />
-                <RobotoText
-                  text={`Rol de alquiler: ${airline[0].rental_role}`}
-                  fontSize="16px"
-                  className="text-gray-600"
-                />
-                <RobotoText
-                  text={`Contraseña: ${airline[0].password}`}
-                  fontSize="16px"
-                  className="text-gray-600"
-                />
+                  <RobotoText
+                    text={`País: ${airline[0].country}`}
+                    fontSize="16px"
+                    className="text-gray-600"
+                  />
+                  <RobotoText
+                    text={`Correo electrónico: ${airline[0].email}`}
+                    fontSize="16px"
+                    className="text-gray-600"
+                  />
+                  <RobotoText
+                    text={`Rol de alquiler: ${airline[0].rental_role}`}
+                    fontSize="16px"
+                    className="text-gray-600"
+                  />
+                  <RobotoText
+                    text={`Contraseña: ${airline[0].password}`}
+                    fontSize="16px"
+                    className="text-gray-600"
+                  />
 
-                {/* edit button */}
-                <button
-                  onClick={handleEditAirline}
-                  className="mt-2 w-full rounded bg-green-500 px-4 py-2"
-                >
-                  <RobotoText
-                    text="Editar información"
-                    fontSize="16px"
-                    className="text-center text-white"
-                  />
-                </button>
-              </>
-            )}
-          </div>
+                  {/* edit button */}
+                  <button
+                    onClick={handleEditAirline}
+                    className="mt-2 w-full rounded bg-green-500 px-4 py-2"
+                  >
+                    <RobotoText
+                      text="Editar información"
+                      fontSize="16px"
+                      className="text-center text-white"
+                    />
+                  </button>
+                </>
+              )}
+            </div>
+            <UserAircrafts userId={userId} />
+          </section>
         ) : (
           // error message
           <RobotoText
@@ -356,7 +362,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
         )}
       </div>
       {/* Rental information */}
-      <div className="grid grid-cols-4 items-center justify-center gap-10">
+      <div className="grid grid-cols-1 items-center justify-center gap-10 md:grid-cols-2 lg:grid-cols-4">
         {loadingRentals ? (
           <RobotoText
             text="Cargando reservas..."
@@ -431,7 +437,6 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
             className="text-center text-gray-500"
           />
         )}
-
         {errorMessage && (
           <RobotoText
             text={errorMessage}
@@ -439,6 +444,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
             className="text-center text-red-500"
           />
         )}
+        {/*  reviews form */}
         {showReviewForm && (
           <Modal
             isOpen={isModalOpen}
@@ -454,10 +460,13 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
                   onChange={(e) =>
                     setReviewData({ ...reviewData, rating: +e.target.value })
                   }
-                  className="w-full rounded border p-2" // Optional styling
+                  className="w-full rounded border p-2"
                 >
                   <option value="" disabled>
-                    Select a rating (1-5)
+                    <RobotoText
+                      text="Selecciona una calificación (1-5)"
+                      fontSize="16px"
+                    />
                   </option>
                   {[1, 2, 3, 4, 5].map((rating) => (
                     <option key={rating} value={rating}>
