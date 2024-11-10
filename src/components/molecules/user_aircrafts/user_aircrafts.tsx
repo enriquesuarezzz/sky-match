@@ -2,12 +2,13 @@
 import { RobotoText } from '@/components/atoms/roboto_text'
 import { FC, useEffect, useState } from 'react'
 
-// Define Aircraft interface
+// define Aircraft interface
 interface Aircraft {
   id: number
   type: string
-  aircraft_image_url: string
   capacity: number
+  price_per_hour: number
+  aircraft_image_url: string
 }
 
 interface UserDashboardProps {
@@ -21,8 +22,9 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
   const [showAddForm, setShowAddForm] = useState<boolean>(false)
   const [newAircraft, setNewAircraft] = useState({
     type: '',
-    aircraft_image_url: '',
     capacity: 0,
+    price_per_hour: 0,
+    aircraft_image_url: '',
   })
 
   // Fetch aircraft data from the database
@@ -84,8 +86,11 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            userId,
-            ...newAircraft,
+            airline_id: userId,
+            type: newAircraft.type,
+            aircraft_image_url: newAircraft.aircraft_image_url,
+            capacity: newAircraft.capacity,
+            price_per_hour: newAircraft.price_per_hour,
           }),
         },
       )
@@ -93,7 +98,12 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
       if (response.ok) {
         const addedAircraft = await response.json()
         setAircraftList((prevList) => [...prevList, addedAircraft])
-        setNewAircraft({ type: '', aircraft_image_url: '', capacity: 0 })
+        setNewAircraft({
+          type: '',
+          capacity: 0,
+          price_per_hour: 0,
+          aircraft_image_url: '',
+        })
         setShowAddForm(false)
         alert('Aeronave añadida correctamente')
       } else {
@@ -161,7 +171,7 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
 
       <button
         onClick={() => setShowAddForm(!showAddForm)}
-        className="rounded bg-blue px-4 py-2 text-white"
+        className="bg-blue-500 rounded px-4 py-2 text-white"
       >
         <RobotoText text="Añadir Nueva Aeronave" fontSize="16px" />
       </button>
@@ -197,6 +207,18 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
               setNewAircraft({
                 ...newAircraft,
                 capacity: parseInt(e.target.value),
+              })
+            }
+            className="rounded border p-2"
+          />
+          <input
+            type="number"
+            placeholder="Precio por Hora (€)"
+            value={newAircraft.price_per_hour}
+            onChange={(e) =>
+              setNewAircraft({
+                ...newAircraft,
+                price_per_hour: parseFloat(e.target.value),
               })
             }
             className="rounded border p-2"
