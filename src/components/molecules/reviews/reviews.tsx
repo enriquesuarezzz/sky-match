@@ -53,7 +53,7 @@ export default function ReviewsList() {
         </div>
       ) : (
         // render the reviews when the data is fetched
-        <div className="w-full max-w-2xl space-y-8">
+        <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map((review) => (
             <div
               key={review.review_id}
