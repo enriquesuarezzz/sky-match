@@ -2,15 +2,17 @@ import { useEffect } from 'react'
 
 interface NotificationProps {
   message: string
-  type: 'success' | 'error'
+  type: 'success' | 'error' | null
   onClose: () => void
 }
 
 const Notification = ({ message, type, onClose }: NotificationProps) => {
   useEffect(() => {
-    const timer = setTimeout(onClose, 3000) // Auto-close after 3 seconds
+    const timer = setTimeout(onClose, 3000) // auto-close after 3 seconds
     return () => clearTimeout(timer)
   }, [onClose])
+
+  if (!type) return null //if null doesnt render anything
 
   const getBackgroundColor = () => {
     switch (type) {

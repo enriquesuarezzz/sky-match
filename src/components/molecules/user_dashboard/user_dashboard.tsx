@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react'
 import { RobotoText } from '@/components/atoms/roboto_text'
 import Modal from 'react-modal'
 import UserAircrafts from '../user_aircrafts/user_aircrafts'
+import Notification from '../notification/notification'
 
 // define the structure of the data
 interface Rental {
@@ -51,6 +52,10 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
   const [rentalIdForReview, setRentalIdForReview] = useState<number | null>(
     null,
   )
+  const [notification, setNotification] = useState<{
+    message: string
+    type: 'success' | 'error' | null
+  }>({ message: '', type: null })
 
   // fetch rentals
   useEffect(() => {
@@ -63,7 +68,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
         const data = await response.json()
         setRentals(data)
       } catch (error) {
-        console.error('Error fetching rentals:', error)
+        console.error('Error cargando reservas:', error)
         setErrorMessage('Error al cargar las reservas.')
       } finally {
         setLoadingRentals(false)
@@ -86,7 +91,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
         const data = await response.json()
         setAirline(data)
       } catch (error) {
-        console.error('Error fetching airline:', error)
+        console.error('Error cargando aerolineas:', error)
         setErrorMessage('Error al cargar los datos de la aerolínea.')
       } finally {
         setLoadingAirline(false)
@@ -126,16 +131,14 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
       )
 
       if (response.ok) {
-        setAirline([updatedAirline]) // Update state with new airline data
-        setEditMode(false) // Exit edit mode
+        setAirline([updatedAirline])
+        setEditMode(false)
       } else {
-        setErrorMessage('Error updating airline: ' + response.statusText)
+        setErrorMessage('Error actualizando aerolinea: ' + response.statusText)
       }
     } catch (error) {
-      console.error('Error updating airline:', error)
-      setErrorMessage(
-        'An unexpected error occurred while updating the airline.',
-      )
+      console.error('Error actualizando aerolinea:', error)
+      setErrorMessage('Ha ocurrido un error actualizando la aerolinea.')
     }
   }
 
@@ -163,12 +166,23 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
         setRentals((prevRentals) =>
           prevRentals.filter((rental) => rental.rental_id !== rentalId),
         )
+        setNotification({
+          message: 'Reserva eliminada correctamente!',
+          type: 'success',
+        })
       } else {
-        setErrorMessage('Error al cancelar la reserva: ' + response.statusText)
+        setNotification({
+          message: 'A ocurrido un error con la reseña, intentelo más tarde',
+          type: 'error',
+        })
       }
     } catch (error) {
-      console.error('Error deleting rental:', error)
-      setErrorMessage('Ocurrió un error inesperado al cancelar la reserva.')
+      console.error('Error eliminando la reserva:', error)
+      setNotification({
+        message:
+          'A ocurrido un error eliminando la reserva, intentelo más tarde',
+        type: 'error',
+      })
     }
   }
 
@@ -196,17 +210,32 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
       )
 
       if (response.ok) {
-        alert('Review submitted successfully')
+        setNotification({
+          message: 'Reseña enviada correctamente!',
+          type: 'success',
+        })
         setShowReviewForm(false)
         setReviewData({ rating: 0, review_text: '' })
       } else {
-        alert('Failed to submit review')
+        setNotification({
+          message: 'Error al enviar la reseña',
+          type: 'error',
+        })
       }
     } catch (error) {
-      console.error('Error submitting review:', error)
-      alert('An error occurred while submitting the review')
+      console.error('Error enviando la reseña:', error)
+      setNotification({
+        message:
+          'Ha ocurrido un error al enviar la reseña. Inténtelo más tarde.',
+        type: 'error',
+      })
     }
   }
+
+  const handleCloseNotification = () => {
+    setNotification({ message: '', type: null })
+  }
+
   const closeModal = () => {
     setIsModalOpen(false)
   }
@@ -221,7 +250,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
         className="text-center font-bold text-gray-800"
       />
 
-      <div className="max-w-[700px] space-y-4 rounded p-4">
+      <div className="max-w-[800px] space-y-4 rounded p-4">
         {/* Airline information */}
         {loadingAirline ? (
           <RobotoText
@@ -230,8 +259,8 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
             className="text-center text-gray-500"
           />
         ) : airline.length > 0 ? (
-          <section className="flex flex-col gap-10 md:flex-row md:gap-24">
-            <div className="rounded border p-8">
+          <section className="flex flex-col gap-10 md:flex-row md:gap-20">
+            <div className="space-y-4 rounded p-2">
               {editMode ? (
                 <div className="space-y-2">
                   {/* input fields */}
@@ -300,44 +329,58 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
                 </div>
               ) : (
                 <>
-                  {/* airline information */}
-                  <RobotoText
-                    text={`Nombre de la aerolínea: ${airline[0].name}`}
-                    fontSize="18px"
-                    className="text-gray-600"
-                  />
-                  <RobotoText
-                    text={`País: ${airline[0].country}`}
-                    fontSize="16px"
-                    className="text-gray-600"
-                  />
-                  <RobotoText
-                    text={`Correo electrónico: ${airline[0].email}`}
-                    fontSize="16px"
-                    className="text-gray-600"
-                  />
-                  <RobotoText
-                    text={`Rol de alquiler: ${airline[0].rental_role}`}
-                    fontSize="16px"
-                    className="text-gray-600"
-                  />
-                  <RobotoText
-                    text={`Contraseña: ${airline[0].password}`}
-                    fontSize="16px"
-                    className="text-gray-600"
-                  />
-
-                  {/* edit button */}
-                  <button
-                    onClick={handleEditAirline}
-                    className="mt-2 w-full rounded bg-green-500 px-4 py-2"
-                  >
-                    <RobotoText
-                      text="Editar información"
-                      fontSize="16px"
-                      className="text-center text-white"
+                  {notification.message && (
+                    <Notification
+                      message={notification.message}
+                      type={notification.type}
+                      onClose={handleCloseNotification}
                     />
-                  </button>
+                  )}
+                  <RobotoText
+                    text="Datos de la Aerolínea"
+                    fontSize="20px"
+                    className="text-center font-bold text-gray-800"
+                  />
+                  <div className="flex flex-col gap-2 border p-4">
+                    {/* airline information */}
+                    <RobotoText
+                      text={`Nombre de la aerolínea: ${airline[0].name}`}
+                      fontSize="18px"
+                      className="text-gray-600"
+                    />
+                    <RobotoText
+                      text={`País: ${airline[0].country}`}
+                      fontSize="16px"
+                      className="text-gray-600"
+                    />
+                    <RobotoText
+                      text={`Correo electrónico: ${airline[0].email}`}
+                      fontSize="16px"
+                      className="text-gray-600"
+                    />
+                    <RobotoText
+                      text={`Rol de alquiler: ${airline[0].rental_role}`}
+                      fontSize="16px"
+                      className="text-gray-600"
+                    />
+                    <RobotoText
+                      text={`Contraseña: ${airline[0].password}`}
+                      fontSize="16px"
+                      className="text-gray-600"
+                    />
+
+                    {/* edit button */}
+                    <button
+                      onClick={handleEditAirline}
+                      className="mt-2 w-full rounded bg-green-500 px-4 py-2"
+                    >
+                      <RobotoText
+                        text="Editar información"
+                        fontSize="16px"
+                        className="text-center text-white"
+                      />
+                    </button>
+                  </div>
                 </>
               )}
             </div>

@@ -6,21 +6,28 @@ import { FC, useEffect, useState } from 'react'
 interface Aircraft {
   id: number
   type: string
-  aircraft_image_url: string
   capacity: number
+  price_per_hour: number
+  aircraft_image_url: string
 }
 
 interface UserDashboardProps {
   userId: number | null
 }
 
-// define the states
 const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
   const [aircraftList, setAircraftList] = useState<Aircraft[]>([])
   const [loadingAircraft, setLoadingAircraft] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [showAddForm, setShowAddForm] = useState<boolean>(false)
+  const [newAircraft, setNewAircraft] = useState({
+    type: '',
+    capacity: 0,
+    price_per_hour: 0,
+    aircraft_image_url: '',
+  })
 
-  // fetch aircraft data for the ddbb
+  // Fetch aircraft data from the database
   useEffect(() => {
     const fetchAircraftList = async () => {
       setLoadingAircraft(true)
@@ -43,7 +50,7 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
     }
   }, [userId])
 
-  // handle aircraft delete
+  // Handle aircraft delete
   const handleDeleteAircraft = async (aircraftId: number) => {
     const confirmDelete = window.confirm(
       '¿Estás seguro de que quieres eliminar esta aeronave?',
@@ -53,9 +60,7 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/aircrafts/${aircraftId}`,
-        {
-          method: 'DELETE',
-        },
+        { method: 'DELETE' },
       )
 
       if (response.ok) {
@@ -67,13 +72,50 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
         setErrorMessage('Error al eliminar la aeronave: ' + response.statusText)
       }
     } catch (error) {
-      console.error('Error elimando el avion:', error)
+      console.error('Error eliminando el avión:', error)
       setErrorMessage('Ocurrió un error inesperado al eliminar el avión.')
     }
   }
 
+  // Handle new aircraft submission
+  const handleAddAircraft = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/aircrafts`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            airline_id: userId,
+            type: newAircraft.type,
+            aircraft_image_url: newAircraft.aircraft_image_url,
+            capacity: newAircraft.capacity,
+            price_per_hour: newAircraft.price_per_hour,
+          }),
+        },
+      )
+
+      if (response.ok) {
+        const addedAircraft = await response.json()
+        setAircraftList((prevList) => [...prevList, addedAircraft])
+        setNewAircraft({
+          type: '',
+          capacity: 0,
+          price_per_hour: 0,
+          aircraft_image_url: '',
+        })
+        setShowAddForm(false)
+        alert('Aeronave añadida correctamente')
+      } else {
+        setErrorMessage('Error al añadir la aeronave')
+      }
+    } catch (error) {
+      console.error('Error añadiendo aeronave:', error)
+      setErrorMessage('Ocurrió un error al añadir la aeronave.')
+    }
+  }
+
   return (
-    //list of renting aircrafts
     <div className="flex w-full flex-col items-center justify-center space-y-4 rounded">
       <RobotoText
         text="Aeronaves en Alquiler"
@@ -92,7 +134,7 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
           {aircraftList.map((aircraft) => (
             <div
               key={aircraft.id}
-              className="flex w-[200px] flex-col items-center justify-center rounded border p-8"
+              className="flex w-[300px] flex-col items-center justify-center rounded border p-8"
             >
               <img
                 src={aircraft.aircraft_image_url}
@@ -105,7 +147,6 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
                 fontSize="18px"
                 className="text-gray-600"
               />
-
               <RobotoText
                 text={`Capacidad: ${aircraft.capacity}`}
                 fontSize="16px"
@@ -126,6 +167,69 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
           fontSize="18px"
           className="text-center text-gray-500"
         />
+      )}
+
+      <button
+        onClick={() => setShowAddForm(!showAddForm)}
+        className="bg-blue-500 rounded px-4 py-2 text-white"
+      >
+        <RobotoText text="Añadir Nueva Aeronave" fontSize="16px" />
+      </button>
+
+      {showAddForm && (
+        <div className="flex flex-col items-center space-y-2 rounded border p-4">
+          <input
+            type="text"
+            placeholder="Tipo de Aeronave"
+            value={newAircraft.type}
+            onChange={(e) =>
+              setNewAircraft({ ...newAircraft, type: e.target.value })
+            }
+            className="rounded border p-2"
+          />
+          <input
+            type="url"
+            placeholder="URL de la Imagen"
+            value={newAircraft.aircraft_image_url}
+            onChange={(e) =>
+              setNewAircraft({
+                ...newAircraft,
+                aircraft_image_url: e.target.value,
+              })
+            }
+            className="rounded border p-2"
+          />
+          <input
+            type="number"
+            placeholder="Capacidad"
+            value={newAircraft.capacity}
+            onChange={(e) =>
+              setNewAircraft({
+                ...newAircraft,
+                capacity: parseInt(e.target.value),
+              })
+            }
+            className="rounded border p-2"
+          />
+          <input
+            type="number"
+            placeholder="Precio por Hora (€)"
+            value={newAircraft.price_per_hour}
+            onChange={(e) =>
+              setNewAircraft({
+                ...newAircraft,
+                price_per_hour: parseFloat(e.target.value),
+              })
+            }
+            className="rounded border p-2"
+          />
+          <button
+            onClick={handleAddAircraft}
+            className="rounded bg-green-500 px-4 py-2 text-white"
+          >
+            <RobotoText text="Guardar Aeronave" fontSize="16px" />
+          </button>
+        </div>
       )}
 
       {errorMessage && (
