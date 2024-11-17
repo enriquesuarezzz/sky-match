@@ -8,7 +8,6 @@ Features
 
 	•	Responsive Design: Optimized for both desktop and mobile use.
 	•	Aircraft Listings: View detailed aircraft profiles with essential information such as type, capacity, and availability.
-	•	Search & Filters: Easily search for aircraft and crew using criteria like location, availability, and capacity.
 	•	User Dashboard: A dedicated area where users can view available options and track their activity on the platform.
 
 Technologies Used
