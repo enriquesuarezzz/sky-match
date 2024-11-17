@@ -32,7 +32,7 @@ Installation & Setup
 
 2.	Navigate to the project directory:
 
-		cd skymatch-frontend
+		cd skymatch
 
 
 3.	Install dependencies:
