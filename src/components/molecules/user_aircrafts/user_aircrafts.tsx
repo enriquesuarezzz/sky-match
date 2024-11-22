@@ -171,25 +171,25 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
 
       <button
         onClick={() => setShowAddForm(!showAddForm)}
-        className="bg-blue-500 rounded px-4 py-2 text-white"
+        className="rounded bg-green-500 px-4 py-2 text-white"
       >
-        <RobotoText text="Añadir Nueva Aeronave" fontSize="16px" />
+        <RobotoText text="Añadir nueva Aeronave" fontSize="16px" />
       </button>
 
       {showAddForm && (
-        <div className="flex flex-col items-center space-y-2 rounded border p-4">
+        <div className="flex flex-col space-y-2 rounded border p-4">
+          <RobotoText text="Tipo de aeronave" fontSize="14px" />
           <input
             type="text"
-            placeholder="Tipo de Aeronave"
             value={newAircraft.type}
             onChange={(e) =>
               setNewAircraft({ ...newAircraft, type: e.target.value })
             }
             className="rounded border p-2"
           />
+          <RobotoText text="URL de la Imagen" fontSize="14px" />
           <input
             type="url"
-            placeholder="URL de la Imagen"
             value={newAircraft.aircraft_image_url}
             onChange={(e) =>
               setNewAircraft({
@@ -199,9 +199,9 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
             }
             className="rounded border p-2"
           />
+          <RobotoText text="Capacidad" fontSize="14px" />
           <input
             type="number"
-            placeholder="Capacidad"
             value={newAircraft.capacity}
             onChange={(e) =>
               setNewAircraft({
@@ -211,9 +211,9 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
             }
             className="rounded border p-2"
           />
+          <RobotoText text="Precio por Hora (€)" fontSize="14px" />
           <input
             type="number"
-            placeholder="Precio por Hora (€)"
             value={newAircraft.price_per_hour}
             onChange={(e) =>
               setNewAircraft({
