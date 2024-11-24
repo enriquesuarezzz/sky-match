@@ -1,8 +1,9 @@
 'use client'
-import { RobotoText } from '@/components/atoms/roboto_text'
 import { FC, useEffect, useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { RobotoText } from '@/components/atoms/roboto_text'
 
-// define Aircraft interface
+// define aircraft and props
 interface Aircraft {
   id: number
   type: string
@@ -15,19 +16,29 @@ interface UserDashboardProps {
   userId: number | null
 }
 
+// form inputs type
+interface AircraftFormInputs {
+  type: string
+  aircraft_image_url: string
+  capacity: number
+  price_per_hour: number
+}
+
+// states
 const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
   const [aircraftList, setAircraftList] = useState<Aircraft[]>([])
   const [loadingAircraft, setLoadingAircraft] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [showAddForm, setShowAddForm] = useState<boolean>(false)
-  const [newAircraft, setNewAircraft] = useState({
-    type: '',
-    capacity: 0,
-    price_per_hour: 0,
-    aircraft_image_url: '',
-  })
 
-  // Fetch aircraft data from the database
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<AircraftFormInputs>()
+
+  // fetch aircrafts
   useEffect(() => {
     const fetchAircraftList = async () => {
       setLoadingAircraft(true)
@@ -38,91 +49,51 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
         const data = await response.json()
         setAircraftList(data)
       } catch (error) {
-        console.error('Error cargando aviones:', error)
+        console.error('Error fetching aircraft:', error)
         setErrorMessage('Error al cargar los aviones.')
       } finally {
         setLoadingAircraft(false)
       }
     }
 
-    if (userId) {
-      fetchAircraftList()
-    }
+    if (userId) fetchAircraftList()
   }, [userId])
 
-  // Handle aircraft delete
-  const handleDeleteAircraft = async (aircraftId: number) => {
-    const confirmDelete = window.confirm(
-      '¿Estás seguro de que quieres eliminar esta aeronave?',
-    )
-    if (!confirmDelete) return
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/aircrafts/${aircraftId}`,
-        { method: 'DELETE' },
-      )
-
-      if (response.ok) {
-        setAircraftList((prevAircraft) =>
-          prevAircraft.filter((aircraft) => aircraft.id !== aircraftId),
-        )
-        alert('Aeronave eliminada correctamente')
-      } else {
-        setErrorMessage('Error al eliminar la aeronave: ' + response.statusText)
-      }
-    } catch (error) {
-      console.error('Error eliminando el avión:', error)
-      setErrorMessage('Ocurrió un error inesperado al eliminar el avión.')
-    }
-  }
-
-  // Handle new aircraft submission
-  const handleAddAircraft = async () => {
+  // add an aircraft
+  const onSubmit: SubmitHandler<AircraftFormInputs> = async (data) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/aircrafts`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            airline_id: userId,
-            type: newAircraft.type,
-            aircraft_image_url: newAircraft.aircraft_image_url,
-            capacity: newAircraft.capacity,
-            price_per_hour: newAircraft.price_per_hour,
-          }),
+          body: JSON.stringify({ ...data, airline_id: userId }),
         },
       )
 
       if (response.ok) {
         const addedAircraft = await response.json()
         setAircraftList((prevList) => [...prevList, addedAircraft])
-        setNewAircraft({
-          type: '',
-          capacity: 0,
-          price_per_hour: 0,
-          aircraft_image_url: '',
-        })
+        reset()
         setShowAddForm(false)
-        alert('Aeronave añadida correctamente')
       } else {
         setErrorMessage('Error al añadir la aeronave')
       }
     } catch (error) {
-      console.error('Error añadiendo aeronave:', error)
+      console.error('Error adding aircraft:', error)
       setErrorMessage('Ocurrió un error al añadir la aeronave.')
     }
   }
 
   return (
     <div className="flex w-full flex-col items-center justify-center space-y-4 rounded">
+      {/* list airline planes */}
       <RobotoText
         text="Aeronaves en Alquiler"
         fontSize="20px"
         className="text-center font-bold text-gray-800"
       />
-
+      {/* loading component */}
       {loadingAircraft ? (
         <RobotoText
           text="Cargando aeronaves..."
@@ -130,7 +101,8 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
           className="text-center text-gray-500"
         />
       ) : aircraftList.length > 0 ? (
-        <div className="flex items-center justify-center gap-5">
+        <div className="flex flex-wrap justify-center gap-5">
+          {/* list aircrafts */}
           {aircraftList.map((aircraft) => (
             <div
               key={aircraft.id}
@@ -152,12 +124,6 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
                 fontSize="16px"
                 className="text-gray-600"
               />
-              <button
-                onClick={() => handleDeleteAircraft(aircraft.id)}
-                className="mt-2 rounded bg-red-500 px-4 py-2 text-white"
-              >
-                <RobotoText text="Eliminar Aeronave" fontSize="16px" />
-              </button>
             </div>
           ))}
         </div>
@@ -168,7 +134,7 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
           className="text-center text-gray-500"
         />
       )}
-
+      {/* add new aircraft */}
       <button
         onClick={() => setShowAddForm(!showAddForm)}
         className="rounded bg-green-500 px-4 py-2 text-white"
@@ -177,59 +143,79 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
       </button>
 
       {showAddForm && (
-        <div className="flex flex-col space-y-2 rounded border p-4">
-          <RobotoText text="Tipo de aeronave" fontSize="14px" />
-          <input
-            type="text"
-            value={newAircraft.type}
-            onChange={(e) =>
-              setNewAircraft({ ...newAircraft, type: e.target.value })
-            }
-            className="rounded border p-2"
-          />
-          <RobotoText text="URL de la Imagen" fontSize="14px" />
-          <input
-            type="url"
-            value={newAircraft.aircraft_image_url}
-            onChange={(e) =>
-              setNewAircraft({
-                ...newAircraft,
-                aircraft_image_url: e.target.value,
-              })
-            }
-            className="rounded border p-2"
-          />
-          <RobotoText text="Capacidad" fontSize="14px" />
-          <input
-            type="number"
-            value={newAircraft.capacity}
-            onChange={(e) =>
-              setNewAircraft({
-                ...newAircraft,
-                capacity: parseInt(e.target.value),
-              })
-            }
-            className="rounded border p-2"
-          />
-          <RobotoText text="Precio por Hora (€)" fontSize="14px" />
-          <input
-            type="number"
-            value={newAircraft.price_per_hour}
-            onChange={(e) =>
-              setNewAircraft({
-                ...newAircraft,
-                price_per_hour: parseFloat(e.target.value),
-              })
-            }
-            className="rounded border p-2"
-          />
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex w-full max-w-[400px] flex-col space-y-4 rounded border p-6"
+        >
+          <div>
+            <RobotoText text="Tipo de Aeronave" fontSize="14px" />
+            <input
+              type="text"
+              {...register('type', {
+                required: 'El tipo de aeronave es obligatorio',
+              })}
+              className="w-full rounded border p-2"
+            />
+            {errors.type && (
+              <span className="text-red-500">{errors.type.message}</span>
+            )}
+          </div>
+
+          <div>
+            <RobotoText text="URL de la Imagen" fontSize="14px" />
+            <input
+              type="url"
+              {...register('aircraft_image_url', {
+                required: 'La URL de la imagen es obligatoria',
+              })}
+              className="w-full rounded border p-2"
+            />
+            {errors.aircraft_image_url && (
+              <span className="text-red-500">
+                {errors.aircraft_image_url.message}
+              </span>
+            )}
+          </div>
+
+          <div>
+            <RobotoText text="Capacidad" fontSize="14px" />
+            <input
+              type="number"
+              {...register('capacity', {
+                required: 'La capacidad es obligatoria',
+                min: { value: 1, message: 'Debe ser al menos 1' },
+              })}
+              className="w-full rounded border p-2"
+            />
+            {errors.capacity && (
+              <span className="text-red-500">{errors.capacity.message}</span>
+            )}
+          </div>
+
+          <div>
+            <RobotoText text="Precio por Hora (€)" fontSize="14px" />
+            <input
+              type="number"
+              {...register('price_per_hour', {
+                required: 'El precio por hora es obligatorio',
+                min: { value: 1, message: 'Debe ser al menos 1' },
+              })}
+              className="w-full rounded border p-2"
+            />
+            {errors.price_per_hour && (
+              <span className="text-red-500">
+                {errors.price_per_hour.message}
+              </span>
+            )}
+          </div>
+
           <button
-            onClick={handleAddAircraft}
+            type="submit"
             className="rounded bg-green-500 px-4 py-2 text-white"
           >
             <RobotoText text="Guardar Aeronave" fontSize="16px" />
           </button>
-        </div>
+        </form>
       )}
 
       {errorMessage && (
