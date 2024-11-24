@@ -66,7 +66,7 @@ const RegisterForm: FC = () => {
         {/* Country input */}
         <Input
           id="country"
-          label="País"
+          label="Código de País"
           {...register('country', {
             required: 'Introduce el país de la aerolínea',
           })}
