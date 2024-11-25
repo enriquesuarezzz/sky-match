@@ -45,6 +45,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [updatedAirline, setUpdatedAirline] = useState<Airline | null>(null)
   const [showReviewForm, setShowReviewForm] = useState(false)
+
   const [reviewData, setReviewData] = useState<Review>({
     rating: 0,
     review_text: '',
@@ -517,6 +518,11 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
                     </option>
                   ))}
                 </select>
+                {reviewData.rating === 0 && (
+                  <span className="text-red-500">
+                    Por favor, selecciona una calificación.
+                  </span>
+                )}
 
                 <textarea
                   value={reviewData.review_text}
@@ -526,13 +532,36 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
                       review_text: e.target.value,
                     })
                   }
-                  placeholder="Write your review here"
+                  placeholder="Escribe tu reseña aquí"
+                  className="w-full rounded border p-2"
                 ></textarea>
+                {(!reviewData.review_text ||
+                  reviewData.review_text.trim() === '') && (
+                  <span className="text-red-500">
+                    El texto de la reseña no puede estar vacío.
+                  </span>
+                )}
+
                 <button
                   className="mt-4 rounded-md bg-blue p-2 text-white"
-                  onClick={handleSubmitReview}
+                  onClick={() => {
+                    if (reviewData.rating === 0) {
+                      alert(
+                        'Por favor, selecciona una calificación entre 1 y 5.',
+                      )
+                      return
+                    }
+                    if (
+                      !reviewData.review_text ||
+                      reviewData.review_text.trim() === ''
+                    ) {
+                      alert('El texto de la reseña no puede estar vacío.')
+                      return
+                    }
+
+                    handleSubmitReview()
+                  }}
                 >
-                  {' '}
                   <RobotoText text="Enviar" fontSize="16px" />
                 </button>
               </div>
