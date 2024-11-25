@@ -4,7 +4,6 @@ import { RobotoText } from '@/components/atoms/roboto_text'
 import Modal from 'react-modal'
 import UserAircrafts from '../user_aircrafts/user_aircrafts'
 import Notification from '../notification/notification'
-import { useForm } from 'react-hook-form'
 
 // define the structure of the data
 interface Rental {
@@ -46,11 +45,7 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [updatedAirline, setUpdatedAirline] = useState<Airline | null>(null)
   const [showReviewForm, setShowReviewForm] = useState(false)
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm()
+
   const [reviewData, setReviewData] = useState<Review>({
     rating: 0,
     review_text: '',
