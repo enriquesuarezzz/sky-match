@@ -26,7 +26,7 @@ Installation & Setup
 
 1.	Clone the repository:
 
-		git clone https://github.com/enriquesuarezzz/SkyMatch.git
+		git clone https://github.com/enriquesuarezzz/sky-match.git
 
 
 2.	Navigate to the project directory:
