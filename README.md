@@ -31,7 +31,7 @@ Installation & Setup
 
 2.	Navigate to the project directory:
 
-		cd skymatch
+		cd sky-match
 
 
 3.	Install dependencies:
