@@ -137,7 +137,7 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
       {/* add new aircraft */}
       <button
         onClick={() => setShowAddForm(!showAddForm)}
-        className="rounded bg-green-500 px-4 py-2 text-white"
+        className="rounded bg-green-500 px-4 py-2"
       >
         <RobotoText
           text="Añadir nueva Aeronave"
@@ -213,11 +213,12 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
             )}
           </div>
 
-          <button
-            type="submit"
-            className="rounded bg-green-500 px-4 py-2 text-white"
-          >
-            <RobotoText text="Guardar Aeronave" fontSize="16px" />
+          <button type="submit" className="rounded bg-green-500 px-4 py-2">
+            <RobotoText
+              text="Guardar Aeronave"
+              fontSize="16px"
+              className="text-white"
+            />
           </button>
         </form>
       )}
