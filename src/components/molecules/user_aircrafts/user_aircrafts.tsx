@@ -139,7 +139,11 @@ const UserAircrafts: FC<UserDashboardProps> = ({ userId }) => {
         onClick={() => setShowAddForm(!showAddForm)}
         className="rounded bg-green-500 px-4 py-2 text-white"
       >
-        <RobotoText text="Añadir nueva Aeronave" fontSize="16px" />
+        <RobotoText
+          text="Añadir nueva Aeronave"
+          fontSize="16px"
+          className="text-white"
+        />
       </button>
 
       {showAddForm && (
