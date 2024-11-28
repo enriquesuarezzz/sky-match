@@ -562,14 +562,22 @@ const UserDashboard: FC<UserDashboardProps> = ({ userId }) => {
                     handleSubmitReview()
                   }}
                 >
-                  <RobotoText text="Enviar" fontSize="16px" />
+                  <RobotoText
+                    text="Enviar"
+                    fontSize="16px"
+                    className="text-white"
+                  />
                 </button>
               </div>
               <button
                 onClick={closeModal}
-                className="mt-4 rounded-md bg-red-500 p-2 text-white"
+                className="mt-4 rounded-md bg-red-500 p-2"
               >
-                <RobotoText text="Cerrar" fontSize="16px" />
+                <RobotoText
+                  text="Cerrar"
+                  fontSize="16px"
+                  className="text-white"
+                />
               </button>
             </div>
           </Modal>
