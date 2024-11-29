@@ -16,11 +16,11 @@ Technologies Used
 	•	Tailwind CSS: For streamlined and responsive styling.
 	•	JavaScript / TypeScript: For component logic and type safety.
 
-Future Development
+SkyMatch API
 
-	•	Backend Integration: A separate backend project will handle data storage, authentication, and business logic.
-	•	API Endpoints: The frontend will connect to a RESTful API for data retrieval and updates.
-	•	Booking Management: Adding functionality for submitting and managing rental requests.
+	•	Backend Integration: A separate backend project handle data storage, authentication, and business logic.
+	•	API Endpoints: The frontend is connected to a RESTful API for data retrieval and updates.
+	
 
 Installation & Setup
 
